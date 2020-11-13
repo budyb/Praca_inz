@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block data %}
+
+   <div class="d-flex p-2">
+      <div class="container">
+        <h1>Ranking</h1>
+        <table class="table css-serial">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Username</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for obj in object_list %}
+            <tr>
+              <td>{{ obj.name }}</td>
+              <td>{{ obj.surname}}</td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endblock %}
