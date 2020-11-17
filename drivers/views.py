@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.views.generic import TemplateView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
+from django.contrib.auth import views as auth_views
 from django.conf import settings
 import requests
 
@@ -52,12 +53,20 @@ class Register(FormView):
             messages.warning(request, f'Wprowadź poprawne dane')
             return redirect('register')
        
-class Login(FormView):
+class Login(auth_views.LoginView):
     template_name = 'login.html'
-
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Logowanie'
         return context    
+
+class Logout(auth_views.LogoutView):
+    template_name = 'logout.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Wylogowanie'
+        return context 
