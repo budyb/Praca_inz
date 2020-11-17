@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 import logging
 from drivers.models import Driver
 from django.contrib.auth import login, authenticate
+from django.contrib import messages
 
 from django.views.generic import TemplateView
 from django.contrib.auth.forms import UserCreationForm
@@ -18,6 +19,7 @@ class Home(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
+        context["title"] = 'Strona główna'
         queryset = Driver.objects.all()
         context["object_list"] = queryset
 
@@ -27,12 +29,15 @@ class Register(FormView):
     template_name = 'register.html'
     form_class = RegisterForm
 
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
+        context["title"] = 'Rejestracja'
         return context
 
     def post(self, request):
+       
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
@@ -40,5 +45,19 @@ class Register(FormView):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username = username, password=raw_password)
             login(self.request, user)
+            messages.success(request, f'Pomyślnie stworzono konto {username}!')
             return redirect('home')
-    
+        else:
+            form = RegisterForm()
+            messages.warning(request, f'Wprowadź poprawne dane')
+            return redirect('register')
+       
+class Login(FormView):
+    template_name = 'login.html'
+
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Logowanie'
+        return context    

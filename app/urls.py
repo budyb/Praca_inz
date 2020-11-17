@@ -18,9 +18,11 @@ from django.urls import path
 
 from drivers.views import Home
 from drivers.views import Register
+from drivers.views import Login
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('register/', Register.as_view(), name='register'),
+    path('login/', Login.as_view(), name='login'),
 ]

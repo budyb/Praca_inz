@@ -4,14 +4,25 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Example</title>
+    {% if title %}
+      <title>{{title}}</title>
+    {% else %}
+      <title>F1 info</title>
+    {% endif %}
     {% render_bundle 'app' 'css' %}
   </head>
   {% block body %}
   {% include './navbar.html' %}
-   {% block data %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+      {% block content %}
    
-   {% endblock %}
+      {% endblock %}
     <div id="app"> {% render_bundle 'index' 'js' %}</div>
     {% if settings.DEBUG and settings.WEBPACK_LIVE_SERVER %}
         <script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/vendor.bundle.js"></script>
