@@ -1,15 +1,6 @@
-// import React from "react";
-
-// const App = () => {
-//   return <div>dupa!</div>;
-// };
-
-// export default App;
-
-
 import React, { Component } from "react";
 import { render } from "react-dom";
-//import HomePage from "./HomePage";
+
 
 export default class App extends Component {
   constructor(props) {

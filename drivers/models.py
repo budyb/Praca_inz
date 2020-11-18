@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 from django.contrib.auth.models import User
 
 
@@ -7,6 +8,7 @@ class Driver(models.Model):
     surname = models.CharField(max_length=150, default="")
 
 
-# class User(models.Model):
-#     login = models.CharField(User, max_length=50)
-#     password = models.CharField(max_length=50)
+class Team(models.Model):
+    name = models.CharField(max_length=150)
+    base = models.CharField(max_length=150)
+    team_chief = models.CharField(max_length=150)
