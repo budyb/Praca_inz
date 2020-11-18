@@ -1,17 +1,17 @@
-from django.shortcuts import render, redirect
-import logging
-from drivers.models import Driver
-from django.contrib.auth import login, authenticate
-from django.contrib import messages
-
-from django.views.generic import TemplateView
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic.edit import FormView
-from django.contrib.auth import views as auth_views
 from django.conf import settings
-import requests
+from django.contrib import messages
+from django.contrib.auth import login, authenticate
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
-from drivers.forms import RegisterForm
+from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
+from django.utils.decorators import method_decorator
+
+from drivers.models import Driver
+from drivers.forms import RegisterForm, UserUpdateForm
 
 
 class Home(TemplateView):
@@ -30,15 +30,13 @@ class Register(FormView):
     template_name = 'register.html'
     form_class = RegisterForm
 
-
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Rejestracja'
         return context
 
-    def post(self, request):
-       
+    def post(self, request):       
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
@@ -70,3 +68,14 @@ class Logout(auth_views.LogoutView):
         context["settings"] = settings
         context["title"] = 'Wylogowanie'
         return context 
+
+@method_decorator(login_required, name= 'dispatch')
+class Profile(TemplateView):
+    template_name = 'profile.html'
+    user_update = UserUpdateForm()
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Mój profil'
+        return context

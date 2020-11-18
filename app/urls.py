@@ -17,10 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from drivers.views import Home
-from drivers.views import Register
-from drivers.views import Login
-from drivers.views import Logout
+from drivers.views import Home, Register, Login, Logout, Profile
+
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
@@ -28,4 +26,5 @@ urlpatterns = [
     path('register/', Register.as_view(), name='register'),
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
+    path('profile/', Profile.as_view(), name='profile'),
 ]
