@@ -26,6 +26,7 @@ class Home(TemplateView):
 
         return context
 
+
 class Register(FormView):
     template_name = 'register.html'
     form_class = RegisterForm
@@ -36,13 +37,13 @@ class Register(FormView):
         context["title"] = 'Rejestracja'
         return context
 
-    def post(self, request):       
+    def post(self, request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username = username, password=raw_password)
+            user = authenticate(username=username, password=raw_password)
             login(self.request, user)
             messages.success(request, f'Pomyślnie stworzono konto {username}!')
             return redirect('home')
@@ -50,7 +51,8 @@ class Register(FormView):
             form = RegisterForm()
             messages.warning(request, f'Wprowadź poprawne dane')
             return redirect('register')
-       
+
+
 class Login(auth_views.LoginView):
     template_name = 'login.html'
 
@@ -58,7 +60,8 @@ class Login(auth_views.LoginView):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Logowanie'
-        return context    
+        return context
+
 
 class Logout(auth_views.LogoutView):
     template_name = 'logout.html'
@@ -67,15 +70,16 @@ class Logout(auth_views.LogoutView):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Wylogowanie'
-        return context 
+        return context
 
-@method_decorator(login_required, name= 'dispatch')
+
+@method_decorator(login_required, name='dispatch')
 class Profile(TemplateView):
     template_name = 'profile.html'
-    
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Mój profil'
-        context["user_update"]=UserUpdateForm
+        context["user_update"] = UserUpdateForm
         return context
