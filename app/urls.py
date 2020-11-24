@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from drivers.views import Home, Register, Login, Logout, Profile
+from drivers.views import Home, Register, Login, Logout, Profile, Map
 
 
 urlpatterns = [
@@ -27,4 +27,5 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
     path('profile/', Profile.as_view(), name='profile'),
+    path('nowyhtml/',Map.as_view(), name='map')
 ]

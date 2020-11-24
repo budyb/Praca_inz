@@ -83,3 +83,15 @@ class Profile(TemplateView):
         context["title"] = 'Mój profil'
         context["user_update"] = UserUpdateForm
         return context
+
+
+class Map(TemplateView):
+    template_name = 'nowyhtml.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Nowa strona'
+        queryset = Driver.objects.all()
+        context["object_list"] = queryset
+        return context

@@ -21,3 +21,13 @@ class Team(models.Model):
     pole_positions = models.CharField(max_length=3, null=True)
     fastest_laps = models.CharField(max_length=3, null=True)
 
+class Schedule(models.Model):
+    round_number = models.IntegerField()
+    race = models.DateTimeField(null=False)
+    quali = models.DateTimeField(null=False)
+    fp3 = models.DateTimeField(null=True)
+    fp2 = models.DateTimeField(null=True)
+    fp1 = models.DateTimeField(null=True)
+    country = models.CharField(max_length=150, null=False)
+    full_name = models.CharField(max_length=250, null=False)
+    circuit = models.CharField(max_length=150, null=False)

@@ -1,4 +1,6 @@
+
 {% extends 'base.html' %}
+{% load render_bundle from webpack_loader %} {% load staticfiles %}
 
 {% block content %}
     <div class="container">
@@ -11,4 +13,5 @@
             Nie masz konta? <a class="ml-2" href="{% url 'register' %}">Zarejestruj się!</a>
     </form>
     </div> 
+    
 {% endblock %}

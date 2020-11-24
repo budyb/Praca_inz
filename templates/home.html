@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load render_bundle from webpack_loader %} {% load staticfiles %}
+
 
 {% block content %}
 
@@ -25,5 +27,6 @@
           </tbody>
         </table>
       </div>
+      
     </div>
     {% endblock %}
