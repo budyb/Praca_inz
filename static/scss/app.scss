@@ -1,5 +1,8 @@
 @import "variables";
 @import "~bootstrap/scss/bootstrap";
+
+/* pasek nawigacyjny */
+
 #my-navbar {
   height: 100px;
 }
@@ -7,8 +10,25 @@
   height: 80px;
 }
 
-// input {
-//   height: 140px !important;
-//   width: 140px !important;
-//   margin: 0 auto;
-// }
+/* tabelki na home*/
+
+#tables {
+  width: 100rem;
+  margin-left: -20rem;
+  white-space: nowrap;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (max-width: 1200px) {
+  #tables {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  #tables {
+    margin-left: 1px;
+  }
+}

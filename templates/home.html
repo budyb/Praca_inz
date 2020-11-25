@@ -1,32 +1,90 @@
 {% extends 'base.html' %}
 {% load render_bundle from webpack_loader %} {% load staticfiles %}
-
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-   <div class="d-flex p-2">
-      <div class="container">
-        <h1>Ranking</h1>
+<div class="container">
+  <div class="row" id="tables">
+    <div class="col-sm mx-5">
+     
+          <h1>Ranking</h1>
+          <table class="table css-serial">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {% for obj in object_list %}
+              <tr>
+                <td>{{ obj.name }}</td>
+                <td>{{ obj.surname}}</td>
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>       
+      </div>
+      <div class="col-sm mx-5">
+        <!-- <div class="d-flex p-2"></div> -->
+      
+      
+        <h1>Zespoły</h1>
         <table class="table css-serial">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Username</th>
+              <th>Nazwa</th>
+              <th>Szef zespołu</th>
             </tr>
           </thead>
-
+      
           <tbody>
-
-            {% for obj in object_list %}
+      
+            {% for team in team_list %}
             <tr>
-              <td>{{ obj.name }}</td>
-              <td>{{ obj.surname}}</td>
+              <td>{{ team.name }}</td>
+              <td>{{ team.team_chief}}</td>
             </tr>
             {% endfor %}
-
+      
           </tbody>
         </table>
       </div>
+
+      <!-- <div class="d-flex p-2"> -->
+
       
+        <div class="col-sm">
+          <h1>Kalendarz</h1>
+          {{ form | crispy }}
+          <table class="table css-serial">
+            <thead>
+              <tr>
+                <th>Nazwa</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {% for gp in gp_list %}
+              <tr>
+                <td>{{ gp.full_name }}</td>
+                <td>{{ gp.race }}</td>
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      
+      <!-- </div> -->
     </div>
-    {% endblock %}
+  </div>
+
+
+  {% endblock %}

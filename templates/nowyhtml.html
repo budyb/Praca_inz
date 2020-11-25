@@ -34,18 +34,33 @@
                 <table class="table css-serial">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Username</th>
+                            <th>Nazwa toru</th>
+                            <th>Kraj</th>
+                            <th>Pełna nazwa</th>
+                            <th>Początek wyścigu</th>
+                            <th>Początek kwalifikacji</th>
+                            <th>Początek fp3</th>
+                            <th>Początek fp2</th>
+                            <th>Początek fp1</th>
                         </tr>
                     </thead>
         
                     <tbody>
         
-                        {% for obj in object_list %}
+                        {% for obj in object %}
+                        {% if "Germany" in obj.country %}
+                        
                         <tr>
-                            <td>{{ obj.name }}</td>
-                            <td>{{ obj.surname}}</td>
+                            <td>{{ obj.circuit }}</td>
+                            <td>{{ obj.country}}</td>
+                            <td>{{ obj.full_name}}</td>
+                            <td>{{ obj.race}}</td>
+                            <td>{{ obj.quali}}</td>
+                            <td>{{ obj.fp3}}</td>                    
+                            <td>{{ obj.fp2}}</td>
+                            <td>{{ obj.fp1}}</td>
                         </tr>
+                        {% endif %}
                         {% endfor %}
         
                     </tbody>

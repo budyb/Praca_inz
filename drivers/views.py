@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 
-from drivers.models import Driver
+from drivers.models import Driver, Schedule, Team
 from drivers.forms import RegisterForm, UserUpdateForm, LoginForm
 
 
@@ -23,6 +23,10 @@ class Home(TemplateView):
         context["title"] = 'Strona główna'
         queryset = Driver.objects.all()
         context["object_list"] = queryset
+        query = Schedule.objects.all()
+        context["gp_list"] = query
+        teams = Team.objects.all()
+        context["team_list"] = teams
 
         return context
 
@@ -93,6 +97,6 @@ class Map(TemplateView):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Nowa strona'
-        queryset = Driver.objects.all()
-        context["object_list"] = queryset
+        queryset = Schedule.objects.all()
+        context["object"] = queryset
         return context
