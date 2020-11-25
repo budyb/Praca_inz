@@ -2,12 +2,14 @@ import requests
 import re
 from bs4 import BeautifulSoup
 from django.core.management import BaseCommand
+from datetime import datetime
 from drivers.models import Schedule
 
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
+        i=1
         r = requests.get(
             "https://www.formula1.com/en/racing/2020.html")
         r.encoding = r.apparent_encoding
@@ -24,42 +26,38 @@ class Command(BaseCommand):
                 continue
         for link in link_list:
             link="https://www.formula1.com"+link
-            link=link.replace(".html","/Timetable")+".html"
             print(link,"\n")
             r = requests.get(link)
             r.encoding = r.apparent_encoding
             soup = BeautifulSoup(r.text, "html.parser")      
-            data = soup.find("div",**{"class": "table parbase"})
-            table = data.tbody.find_all("tr")
-            rows = []
-            for row in table:
-                row = row.text
-                row = row.replace("\n",' ')
-                row = row.replace('\xa0', ' ')
-                rows.append(row)
+            country = soup.find("h1",**{"class": "race-location f1-bold--xxl f1-uppercase f1-color--white no-margin"}).text.replace("2020","")
+            full_name = soup.find("h2",**{"class": "f1--s"}).text
+            circuit = soup.find("p",**{"class": "f1-uppercase misc--tag no-margin"}).text
+            race = str(soup.find("div",**{"class": "row js-race"})).split(" ")[5].replace('>\n<div',"")
+            quali = str(soup.find("div",**{"class": "row js-qualifying"})).split(" ")[5].replace('>\n<div',"")
+            fp3 = str(soup.find("div",**{"class": "row js-practice-3"})).split(" ")
+            fp2 = str(soup.find("div",**{"class": "row js-practice-2"})).split(" ")
+            fp1 = str(soup.find("div",**{"class": "row js-practice-1"})).split(" ")
+            if ((fp1==['None']) or ('data-override-status="CANCELLED"' in fp1)):
+                fp1=None
+            else:
+                fp1=fp1[5].replace('>\n<div',"")
+                fp1 = datetime.strptime(fp1, 'data-start-time="%Y-%m-%dT%H:%M:%S"')
 
-            races = []   
-            for row in rows:
-                if "Formula 1" in row and ("Practice" in row or ("Qualifying " in row or "Grand Prix"in row)) and "Pit Stop" not in row:
-                    races.append(row)
-                    print(row,"\n")                    
-                elif "SUNDAY" in row or "SATURDAY" in row or "FRIDAY" in row: 
-                    races.append(row)
-                    print(row,"\n")
-                else:
-                    pass
-           
-            # for dat in table_data:
+            if ((fp2==['None']) or ('data-override-status="CANCELLED"' in fp2)):
+                fp2=None
+            else:
+                fp2=fp2[5].replace('>\n<div',"")
+                fp2 = datetime.strptime(fp2, 'data-start-time="%Y-%m-%dT%H:%M:%S"')
 
-            #     for td in table_data[table_data.index(dat)].find_all("td"):
-            #         headings.append(td.text.strip())
-            #rows = [data.tbody.findAll("Formula 1")]
-            # for row in rows:
-            #     print(row, "\n\n\n\n\n\n")
-
-            
-        
-    
-
-
-####https://www.formula1.com/content/dam/fom-website/teams/2020/ferrari.png -miniatura samochodu 
+            if ((fp3==['None']) or ('data-override-status="CANCELLED"' in fp3)):
+                fp3=None
+            else: 
+                fp3=fp3[5].replace('>\n<div',"") 
+                fp3 = datetime.strptime(fp3, 'data-start-time="%Y-%m-%dT%H:%M:%S"')   
+                      
+            race = datetime.strptime(race, 'data-start-time="%Y-%m-%dT%H:%M:%S"')
+            quali = datetime.strptime(quali, 'data-start-time="%Y-%m-%dT%H:%M:%S"')
+            b = Schedule(round_number=i, race=race, quali=quali, fp3=fp3, fp2=fp2, fp1=fp1, country=country, full_name=full_name, circuit=circuit)
+            b.save()
+            i += 1

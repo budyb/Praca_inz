@@ -11,7 +11,7 @@ from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 
 from drivers.models import Driver
-from drivers.forms import RegisterForm, UserUpdateForm
+from drivers.forms import RegisterForm, UserUpdateForm, LoginForm
 
 
 class Home(TemplateView):
@@ -55,6 +55,7 @@ class Register(FormView):
 
 class Login(auth_views.LoginView):
     template_name = 'login.html'
+    form_class=LoginForm
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
