@@ -20,10 +20,12 @@ class RegisterForm(UserCreationForm):
 class UserUpdateForm(forms.ModelForm):
     username = forms.CharField(max_length=40, required=True, help_text='Obowiązkowe', label="Login")
     email = forms.EmailField(max_length=254, help_text='Obowiązkowe')
+    password = forms.CharField(widget=forms.PasswordInput(), label="Hasło", help_text="Hasło musi się składać przynajmniej z 8 znaków")
+
 
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'password']
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(max_length=40, required=True, label="Login")

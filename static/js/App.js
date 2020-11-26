@@ -30,7 +30,7 @@ function Mapp() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      <Geocoder address="NÜRBURGRING" />
+      <Geocoder address="Bahrain International Circuit" />
     </MapContainer>
   );
 }

@@ -89,7 +89,7 @@ class Profile(TemplateView):
         context["user_update"] = UserUpdateForm
         return context
 
-
+@method_decorator(login_required, name='dispatch')
 class Map(TemplateView):
     template_name = 'nowyhtml.html'
 

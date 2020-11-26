@@ -23,14 +23,16 @@
         .leaflet-container {
             height: 1400px !important;
             width: 1400px !important;
-            margin: 0 auto;
+            margin: -10px auto;
+            margin-left: -400px !important;
         }
     </style>
     </head>
     <body>
+        {% include './navbar.html' %}
         <div class="d-flex p-2">
             <div class="container">
-                <h1>Ranking</h1>
+                <h1>Informacje o GP</h1>
                 <table class="table css-serial">
                     <thead>
                         <tr>
@@ -39,26 +41,37 @@
                             <th>Pełna nazwa</th>
                             <th>Początek wyścigu</th>
                             <th>Początek kwalifikacji</th>
-                            <th>Początek fp3</th>
-                            <th>Początek fp2</th>
-                            <th>Początek fp1</th>
+                            <th>Początek trzeciego treningu</th>
+                            <th>Początek drugiego treningu</th>
+                            <th>Początek pierwszego treningu</th>
                         </tr>
                     </thead>
         
                     <tbody>
         
                         {% for obj in object %}
-                        {% if "Germany" in obj.country %}
-                        
+                        {% if "Bahrain" in obj.full_name %}                        
                         <tr>
                             <td>{{ obj.circuit }}</td>
                             <td>{{ obj.country}}</td>
                             <td>{{ obj.full_name}}</td>
                             <td>{{ obj.race}}</td>
                             <td>{{ obj.quali}}</td>
-                            <td>{{ obj.fp3}}</td>                    
+                            {% if obj.fp3 == None %}
+                            <td>obj.fp3="Anulowane"</td>
+                            {% else %}
+                            <td>{{ obj.fp3}}</td> 
+                            {% endif %}  
+                            {% if obj.fp2 == None %}
+                            <td>Anulowane</td>
+                            {% else %}
                             <td>{{ obj.fp2}}</td>
+                            {% endif %}
+                            {% if obj.fp1 == None %}
+                            <td>Anulowane</td>
+                            {% else %}
                             <td>{{ obj.fp1}}</td>
+                            {% endif %}
                         </tr>
                         {% endif %}
                         {% endfor %}

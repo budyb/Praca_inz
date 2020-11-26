@@ -15,7 +15,6 @@ class Command(BaseCommand):
         soup = BeautifulSoup(r.text, "html.parser")
 
         nameList = [i.text for i in soup.findAll("span", **{"class": "d-block f1--xxs f1-color--carbonBlack"})]
-
         surnameList = [i.text for i in soup.findAll("span", **{"class": "d-block f1-bold--s f1-color--carbonBlack"})]
 
         for name, surname in zip(nameList, surnameList):

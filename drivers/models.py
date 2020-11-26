@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 class Driver(models.Model):
     name = models.CharField(max_length=150)
     surname = models.CharField(max_length=150, default="")
+    # nationality = models.CharField(max_length=150)
+    # team = models.ForeignKey('Team', on_delete=models.SET_NULL)
+    # points = models.IntegerField()
 
 
 class Team(models.Model):
