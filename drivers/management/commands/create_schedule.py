@@ -9,7 +9,7 @@ from drivers.models import Schedule
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        i=1
+        Driver.objects.all().delete()
         r = requests.get(
             "https://www.formula1.com/en/racing/2020.html")
         r.encoding = r.apparent_encoding

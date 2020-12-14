@@ -48,7 +48,6 @@
                     </thead>
         
                     <tbody>
-        
                         {% for obj in object %}
                         {% if "Bahrain" in obj.full_name %}                        
                         <tr>
@@ -86,8 +85,14 @@
             <div class="row">
                 <div class="mx-auto my-1  col-sm-5">
                     <div id="app"> {% render_bundle 'index' 'js' %}</div>
+                    <div id="table"> {% render_bundle 'index' 'js' %}</div>
                 </div>
             </div>
+            <!-- $("#table tr").click(function(){
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var value=$(this).find('td:first').html();
+            alert(value);
+            }); -->
         </div>
     </body>
     {% if settings.DEBUG and settings.WEBPACK_LIVE_SERVER %}

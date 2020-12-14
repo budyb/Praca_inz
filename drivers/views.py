@@ -91,7 +91,7 @@ class Profile(TemplateView):
 
 @method_decorator(login_required, name='dispatch')
 class Map(TemplateView):
-    template_name = 'nowyhtml.html'
+    template_name = 'bahrain.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)

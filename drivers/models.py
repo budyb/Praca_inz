@@ -6,20 +6,21 @@ from django.contrib.auth.models import User
 class Driver(models.Model):
     name = models.CharField(max_length=150)
     surname = models.CharField(max_length=150, default="")
-    nationality = models.CharField(max_length=150, default= "No info")
-    team = models.ForeignKey('Team',  null=True, on_delete=models.SET_NULL)
+    nationality = models.CharField(max_length=150, default= "No info", null=True)
+    team = models.ForeignKey('Team', to_field='name', null=True, on_delete=models.SET_NULL)
     points = models.IntegerField(default=0)
-    podiums = models.CharField(max_length=150, default="0")
-    total_points = models.IntegerField(default=0)
-    gp_entered = models.IntegerField(default=0)
-    w_champs = models.CharField(max_length=150, default="0")
-    highest_finish =  models.CharField(max_length=150, default="")
+    podiums = models.CharField(max_length=150, default="0", null=True)
+    total_points = models.IntegerField(default=0, null=True)
+    gp_entered = models.IntegerField(default=0, null=True)
+    w_champs = models.CharField(max_length=150, default="0", null=True)
+    highest_finish =  models.CharField(max_length=150, default="", null=True)
     birthdate = models.DateField(null=True)
+    number = models.IntegerField(default=0, null=True)
 
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, unique = True)
     base = models.CharField(max_length=150)
     team_chief = models.CharField(max_length=150)
     tech_chief = models.CharField(max_length=150, null=True)

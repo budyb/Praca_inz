@@ -4,7 +4,8 @@ import requests
 from bs4 import BeautifulSoup
 from django.core.management import BaseCommand
 from unidecode import unidecode
-from drivers.models import Driver
+from datetime import datetime
+from drivers.models import Driver, Team
 
 
 # class Command(BaseCommand):
@@ -33,12 +34,14 @@ class Command(BaseCommand):
         r.encoding = 'utf-8'
         soup = BeautifulSoup(r.text, "html.parser")
 
+        Driver.objects.all().delete()
+        teams = Team.objects.all()
         nameList = [i.text for i in soup.findAll("span", **{"class": "d-block f1--xxs f1-color--carbonBlack"})]
         surnameList = [i.text for i in soup.findAll("span", **{"class": "d-block f1-bold--s f1-color--carbonBlack"})]
         pointsList = [i.text for i in soup.findAll("div", **{"class": "f1-wide--s"})]
         teamsList = [i.text for i in soup.findAll("p", **{"class": "listing-item--team f1--xxs f1-color--gray5"})]
         
-        for name,surname, points, team in zip(nameList, surnameList, pointsList, teamsList):
+        for name,surname, points, squad in zip(nameList, surnameList, pointsList, teamsList):
             surname_link = unidecode(surname)
             name_link = unidecode(name)
             
@@ -50,10 +53,19 @@ class Command(BaseCommand):
             
             name = soup.find("h1", **{"class": "driver-name"})
             number = soup.find("div", **{"class": "driver-number"})
+            squad = squad.replace(" ",  "-")
+            team = Team((),{})
+            for te in teams:
+                if(te.name==squad):
+                    team=te
+                    print(team.name)
+                else:
+                    continue
 
             if name is not None:
                 number=number.text.strip()
-                name = name.text
+                name = name.text.split(" ")
+
                 List = [i.text for i in soup.findAll("td", **{"class": "stat-value"})]
                 country = List[1]
                 podiums = List[2]
@@ -61,9 +73,9 @@ class Command(BaseCommand):
                 gp_entered = List[4]
                 w_champs = List[5]
                 highest_finish = List[6]
-                birthdate = List[8]
+                birthdate = datetime.strptime(List[8], "%d/%m/%Y").date()
             else:
-                name = name_link + " " + surname_link
+                name = [name_link , surname_link]
                 country = None
                 podiums = None
                 total_points = None
@@ -71,6 +83,10 @@ class Command(BaseCommand):
                 highest_finish = None
                 birthdate = None
                 w_champs = None
-            print(name, points, country, team, number, podiums, total_points, gp_entered, w_champs, highest_finish, birthdate)
+  
+            b = Driver(name=name[0], surname=name[1], points=points, nationality=country, team=team, number=number, podiums=podiums,
+             total_points=total_points, gp_entered=gp_entered, w_champs=w_champs, highest_finish=highest_finish, birthdate=birthdate)
+            b.save()
+            
 
         
