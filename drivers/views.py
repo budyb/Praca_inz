@@ -21,7 +21,7 @@ class Home(TemplateView):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Strona główna'
-        queryset = Driver.objects.all()
+        queryset = Driver.objects.all().order_by('-points')
         context["object_list"] = queryset
         query = Schedule.objects.all()
         context["gp_list"] = query

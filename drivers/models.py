@@ -6,9 +6,16 @@ from django.contrib.auth.models import User
 class Driver(models.Model):
     name = models.CharField(max_length=150)
     surname = models.CharField(max_length=150, default="")
-    # nationality = models.CharField(max_length=150)
-    # team = models.ForeignKey('Team', on_delete=models.SET_NULL)
-    # points = models.IntegerField()
+    nationality = models.CharField(max_length=150, default= "No info")
+    team = models.ForeignKey('Team',  null=True, on_delete=models.SET_NULL)
+    points = models.IntegerField(default=0)
+    podiums = models.CharField(max_length=150, default="0")
+    total_points = models.IntegerField(default=0)
+    gp_entered = models.IntegerField(default=0)
+    w_champs = models.CharField(max_length=150, default="0")
+    highest_finish =  models.CharField(max_length=150, default="")
+    birthdate = models.DateField(null=True)
+
 
 
 class Team(models.Model):
