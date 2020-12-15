@@ -13,11 +13,12 @@ function Mapp() {
         const { lat, lng } = results.results[0].latlng;
         map.setView([lat, lng], 15);
       });
-
+    
     return null;
   }
 
   const position = [53.35, 18.8];
+  
   return (
     <MapContainer
       className="map"
@@ -30,7 +31,8 @@ function Mapp() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      <Geocoder address="Bahrain International Circuit" />
+      <Geocoder address= {obiekt}/>
+      
     </MapContainer>
   );
 }

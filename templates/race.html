@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load render_bundle from webpack_loader %} {% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="d-flex p-2">
+        <div class="container">
+            <h1>Informacje o GP</h1>
+            <table class="table css-serial">
+                <thead>
+                    <tr>
+                        <th>Nazwa toru</th>
+                        <th>Kraj</th>
+                        <th>Pełna nazwa</th>
+                        <th>Początek wyścigu</th>
+                        <th>Początek kwalifikacji</th>
+                        <th>Początek trzeciego treningu</th>
+                        <th>Początek drugiego treningu</th>
+                        <th>Początek pierwszego treningu</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>{{ gp.circuit }}</td>
+                        <td>{{ gp.country }}</td>
+                        <td>{{ gp.full_name }}</td>
+                        <td>{{ gp.race }}</td>
+                        <td>{{ gp.quali }}</td>
+                        {% if gp.fp3 == None %}
+                        <td>Anulowane</td>
+                        {% else %}
+                        <td>{{ gp.fp3}}</td>
+                        {% endif %}
+                        {% if gp.fp2 == None %}
+                        <td>Anulowane</td>
+                        {% else %}
+                        <td>{{ gp.fp2}}</td>
+                        {% endif %}
+                        {% if gp.fp1 == None %}
+                        <td>Anulowane</td>
+                        {% else %}
+                        <td>{{ gp.fp1}}</td>
+                        {% endif %}
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <!-- <h1>Mapa</h1> -->
+    <div class="container" id="mymap">
+        <div class="row">
+            <div class="mx-auto my-1  col-sm-5">
+                <script>
+                    var obiekt = "{{ gp.circuit }}";
+                </script>
+                <div id="app"> {% render_bundle 'index' 'js' %}</div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

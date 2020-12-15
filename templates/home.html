@@ -25,6 +25,7 @@
                 <td>{{ obj.name }}</td>
                 <td>{{ obj.surname}}</td>
                 <td>{{ obj.points}}</td>
+                
               </tr>
               {% endfor %}
 
@@ -74,8 +75,15 @@
             <tbody>
 
               {% for gp in gp_list %}
+              
               <tr>
-                <td>{{ gp.full_name }}</td>
+                <td>
+                <form action="/race/" method="post">
+                  {% csrf_token %}
+                  <button type="submit" name="Gp" value= '{{ gp.full_name }}' class="btn-link">{{ gp.full_name }}</button>
+                </form>
+                </td>
+                
                 <td>{{ gp.race }}</td>
               </tr>
               {% endfor %}

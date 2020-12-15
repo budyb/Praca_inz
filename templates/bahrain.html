@@ -48,33 +48,29 @@
                     </thead>
         
                     <tbody>
-                        {% for obj in object %}
-                        {% if "Bahrain" in obj.full_name %}                        
                         <tr>
-                            <td>{{ obj.circuit }}</td>
-                            <td>{{ obj.country}}</td>
-                            <td>{{ obj.full_name}}</td>
-                            <td>{{ obj.race}}</td>
-                            <td>{{ obj.quali}}</td>
-                            {% if obj.fp3 == None %}
-                            <td>obj.fp3="Anulowane"</td>
+                            <td>{{ gp.circuit }}</td>
+                            <td>{{ gp.country }}</td>
+                            <td>{{ gp.full_name }}</td>
+                            <td>{{ gp.race }}</td>
+                            <td>{{ gp.quali }}</td>
+                            {% if gp.fp3 == None %}
+                            <td>Anulowane</td>
                             {% else %}
-                            <td>{{ obj.fp3}}</td> 
+                            <td>{{ gp.fp3}}</td> 
                             {% endif %}  
-                            {% if obj.fp2 == None %}
+                            {% if gp.fp2 == None %}
                             <td>Anulowane</td>
                             {% else %}
-                            <td>{{ obj.fp2}}</td>
+                            <td>{{ gp.fp2}}</td>
                             {% endif %}
-                            {% if obj.fp1 == None %}
+                            {% if gp.fp1 == None %}
                             <td>Anulowane</td>
                             {% else %}
-                            <td>{{ obj.fp1}}</td>
+                            <td>{{ gp.fp1}}</td>
                             {% endif %}
                         </tr>
-                        {% endif %}
-                        {% endfor %}
-        
+                       
                     </tbody>
                 </table>
             </div>
@@ -84,15 +80,12 @@
         <div class="container" id="mymap">
             <div class="row">
                 <div class="mx-auto my-1  col-sm-5">
+                    <script>
+                        var obiekt = "{{ gp.circuit }}";
+                    </script>
                     <div id="app"> {% render_bundle 'index' 'js' %}</div>
-                    <div id="table"> {% render_bundle 'index' 'js' %}</div>
                 </div>
-            </div>
-            <!-- $("#table tr").click(function(){
-            $(this).addClass('selected').siblings().removeClass('selected');
-            var value=$(this).find('td:first').html();
-            alert(value);
-            }); -->
+            </div>        
         </div>
     </body>
     {% if settings.DEBUG and settings.WEBPACK_LIVE_SERVER %}

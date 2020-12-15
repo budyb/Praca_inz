@@ -5,6 +5,8 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
+from django.http import JsonResponse
+from django.core import serializers
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -91,12 +93,25 @@ class Profile(TemplateView):
 
 @method_decorator(login_required, name='dispatch')
 class Map(TemplateView):
-    template_name = 'bahrain.html'
+    template_name = 'race.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Nowa strona'
-        queryset = Schedule.objects.all()
-        context["object"] = queryset
         return context
+
+    def post(self, request):
+        context = self.get_context_data(self)
+        gp =request.POST.get('Gp', None)
+        for race in Schedule.objects.all():
+            if gp == race.full_name:
+                gp=race
+                break
+            else:
+                continue
+        context["gp"] = gp
+        
+        return render(request, 'bahrain.html', context)
+
+
