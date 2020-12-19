@@ -29,7 +29,6 @@ class Home(TemplateView):
         context["gp_list"] = query
         teams = Team.objects.all()
         context["team_list"] = teams
-
         return context
 
 
@@ -103,7 +102,7 @@ class Map(TemplateView):
 
     def post(self, request):
         context = self.get_context_data(self)
-        gp =request.POST.get('Gp', None)
+        gp = request.POST.get('Gp', None)
         for race in Schedule.objects.all():
             if gp == race.full_name:
                 gp=race
@@ -112,6 +111,6 @@ class Map(TemplateView):
                 continue
         context["gp"] = gp
         
-        return render(request, 'bahrain.html', context)
+        return render(request, 'race.html', context)
 
 

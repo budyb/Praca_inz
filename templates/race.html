@@ -2,6 +2,32 @@
 {% load render_bundle from webpack_loader %} {% load staticfiles %}
 {% load crispy_forms_tags %}
 
+
+{%block head %}
+<meta charset="UTF-8">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.css">
+
+<style>
+    body {
+        padding-bottom: 30px;
+    }
+
+    h1,
+    h2,
+    p {
+        font-family: sans-serif;
+        text-align: center;
+    }
+
+    .leaflet-container {
+        height: 1400px !important;
+        width: 1400px !important;
+        margin: -10px auto;
+        margin-left: -400px !important;
+    }
+</style>
+{%endblock%}
 {% block content %}
 
     <div class="d-flex p-2">
@@ -26,23 +52,77 @@
                         <td>{{ gp.circuit }}</td>
                         <td>{{ gp.country }}</td>
                         <td>{{ gp.full_name }}</td>
-                        <td>{{ gp.race }}</td>
-                        <td>{{ gp.quali }}</td>
-                        {% if gp.fp3 == None %}
-                        <td>Anulowane</td>
-                        {% else %}
-                        <td>{{ gp.fp3}}</td>
-                        {% endif %}
-                        {% if gp.fp2 == None %}
-                        <td>Anulowane</td>
-                        {% else %}
-                        <td>{{ gp.fp2}}</td>
-                        {% endif %}
-                        {% if gp.fp1 == None %}
-                        <td>Anulowane</td>
-                        {% else %}
-                        <td>{{ gp.fp1}}</td>
-                        {% endif %}
+                        <td>
+                            <p id="race"></p>
+                        </td>
+                        <script>
+                            var race = "{{ gp.race|date:'Y-m-d H:i' }}";
+                            var rdate = new Date(race + "Z");
+                            rdate = rdate.toLocaleString();
+                            
+                            
+                            document.getElementById("race").innerHTML = rdate;
+                            
+                            
+                        </script>
+                        <td>
+                            <p id="quali"></p>
+                        </td>
+                        <script>
+                            var quali = "{{ gp.quali|date:'Y-m-d H:i' }}";
+                            var qdate = new Date(quali + "Z");
+                            
+                            qdate = qdate.toLocaleString();
+                            document.getElementById("quali").innerHTML = qdate;
+                        </script>
+                        <td>
+                            <p id="fp3"></p>
+                        </td>
+                        <script>
+                            var fp3 = "{{ gp.fp3|date:'Y-m-d H:i' }}";
+                            if (fp3 != "") {
+                                var fp3date = new Date(fp3 + "Z");
+
+                                fp3date = fp3date.toLocaleString();
+                            }
+                            else {
+                                var fp3date = "Anulowane"
+                            }
+                            document.getElementById("fp3").innerHTML = fp3date;
+                        </script>
+                        <td>
+                            <p id="fp2"></p>
+                        </td>
+                        <script>
+                            var fp2 = "{{ gp.fp2|date:'Y-m-d H:i' }}";
+                            if (fp2 != "") {
+                                var fp2date = new Date(fp2 + "Z");
+
+                                fp2date = fp2date.toLocaleString();
+                            }
+                            else {
+                                var fp2date = "Anulowane"
+                            }
+                            document.getElementById("fp2").innerHTML = fp2date;
+                        </script>
+                        
+                        <td>
+                            <p id="fp1"></p>
+                        </td>
+                        <script>
+                            var fp1 = "{{ gp.fp1|date:'Y-m-d H:i' }}";
+                            if(fp1!=""){
+                            var fp1date = new Date(fp1 + "Z");
+                            
+                            fp1date = fp1date.toLocaleString();
+                            }
+                            else
+                            {
+                               var fp1date = "Anulowane"
+                            }
+                            document.getElementById("fp1").innerHTML = fp1date;
+                        </script>
+                       
                     </tr>
 
                 </tbody>

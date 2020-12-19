@@ -53,6 +53,12 @@
                             <td>{{ gp.country }}</td>
                             <td>{{ gp.full_name }}</td>
                             <td>{{ gp.race }}</td>
+                            <script>
+                                var zmienna = "{{ gp.race|date: 'Y-m-d H:i' }}";
+                                var zmiena = "{{ gp.race }}";
+                                console.log(zmienna);
+                                console.log(zmiena);
+                            </script>
                             <td>{{ gp.quali }}</td>
                             {% if gp.fp3 == None %}
                             <td>Anulowane</td>

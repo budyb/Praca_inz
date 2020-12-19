@@ -84,7 +84,14 @@
                 </form>
                 </td>
                 
-                <td>{{ gp.race }}</td>
+                <td><p id={{ gp.round_number }}></p></td>
+                <script>
+                  var race = "{{ gp.race|date:'Y-m-d H:i' }}";
+                  var num = "{{ gp.round_number }}";
+                  var date = new Date(race+"Z");
+                  date = date.toLocaleString();
+                  document.getElementById(num).innerHTML = date;
+                </script>
               </tr>
               {% endfor %}
 
