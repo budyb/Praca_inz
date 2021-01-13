@@ -8,6 +8,7 @@ module.exports = {
     vendor: "./static/js/vendor.js",
     img: "./static/img/ferrarka.jpg",
     index: "./static/js/index.js",
+    clock: "./static/js/countdown.js",
   },
   module: {
     rules: [

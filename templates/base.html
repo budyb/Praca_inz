@@ -2,42 +2,45 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    {% block head %}
-    
-    <meta charset="UTF-8">
-    {% if title %}
-      <title>{{title}}</title>
-    {% else %}
-      <title>F1 info</title>
-    {% endif %}
-    {% render_bundle 'app' 'css' %}
-    {% endblock %}
-  </head>
-  {% block body %}
-  {% include './navbar.html' %}
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-    
-      {% block content %}
-      
-   
-      {% endblock %}
-    <!-- <div id="app"> {% render_bundle 'index' 'js' %}</div> -->
-    
-    {% if settings.DEBUG and settings.WEBPACK_LIVE_SERVER %}
-        <script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/vendor.bundle.js"></script>
-        <script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/app.bundle.js"></script>
-        <script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/index.bundle.js"></script>
-    {% else %}
-        {% render_bundle 'vendor' 'js' %}
-        {% render_bundle 'app' 'js' %}
-        {% render_bundle 'index' 'js' %}
-    {% endif %}
+
+<head>
+  {% block head %}
+
+  <meta charset="UTF-8">
+  {% if title %}
+  <title>{{title}}</title>
+  {% else %}
+  <title>F1 info</title>
+  {% endif %}
+  {% render_bundle 'app' 'css' %}
   {% endblock %}
+</head>
+{% block body %}
+{% include './navbar.html' %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}">
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+{% block content %}
+
+
+{% endblock %}
+<!-- <div id="app"> {% render_bundle 'index' 'js' %}</div> -->
+
+{% if settings.DEBUG and settings.WEBPACK_LIVE_SERVER %}
+<script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/vendor.bundle.js"></script>
+<script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/app.bundle.js"></script>
+<script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/index.bundle.js"></script>
+<script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/clock.bundle.js"></script>
+{% else %}
+{% render_bundle 'vendor' 'js' %}
+{% render_bundle 'app' 'js' %}
+{% render_bundle 'index' 'js' %}
+{% endif %}
+{% endblock %}
+
 </html>

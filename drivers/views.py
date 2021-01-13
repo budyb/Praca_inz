@@ -4,6 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from datetime import datetime, timezone
 
 from django.http import JsonResponse
 from django.core import serializers
@@ -16,7 +17,26 @@ from drivers.models import Driver, Schedule, Team
 from drivers.forms import RegisterForm, UserUpdateForm, LoginForm
 
 
-class Home(TemplateView):
+class NextRace:
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data()
+        now = datetime.now(timezone.utc)
+        next_race = ''
+        list = Schedule.objects.all()
+        lowest_delta = 99999999
+        for gp in list:
+            delta = (gp.race - now).total_seconds()
+            if delta < 0:
+                continue
+            elif delta < lowest_delta:
+                next_race = gp
+                lowest_delta = delta
+        context["next_race"] = next_race
+        return context
+
+
+class Home(NextRace, TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -60,7 +80,7 @@ class Register(FormView):
 
 class Login(auth_views.LoginView):
     template_name = 'login.html'
-    form_class=LoginForm
+    form_class = LoginForm
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,7 +110,7 @@ class Profile(TemplateView):
         context["user_update"] = UserUpdateForm
         return context
 
-@method_decorator(login_required, name='dispatch')
+
 class Map(TemplateView):
     template_name = 'race.html'
 
@@ -105,12 +125,10 @@ class Map(TemplateView):
         gp = request.POST.get('Gp', None)
         for race in Schedule.objects.all():
             if gp == race.full_name:
-                gp=race
+                gp = race
                 break
             else:
                 continue
         context["gp"] = gp
-        
+
         return render(request, 'race.html', context)
-
-

@@ -27,6 +27,5 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
     path('profile/', Profile.as_view(), name='profile'),
-    #path('bahrain/',Map.as_view(), name='map')
-    path('race/',Map.as_view(), name='map')
+    path('race/', Map.as_view(), name='map')
 ]

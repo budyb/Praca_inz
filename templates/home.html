@@ -4,104 +4,123 @@
 
 {% block content %}
 
+
+</div>
+{{ next_race.circuit }}
+<p id=nextrace></p>
+<script>
+  var nextgp = "{{ next_race.race|date:'Y-m-d H:i' }}";
+
+  var date = new Date(nextgp + "Z");
+
+  dateS = date.toLocaleString();
+  console.log(date);
+  document.getElementById("nextrace").innerHTML = dateS;
+</script>
+
+<div id="timer" class="flex-wrap d-flex justify-content-center">
+  <div id="days" class="align-items-center flex-column d-flex justify-content-center"></div>
+  <div id="hours" class="align-items-center flex-column d-flex justify-content-center"></div>
+  <div id="minutes" class="align-items-center flex-column d-flex justify-content-center"></div>
+  <div id="seconds" class="align-items-center flex-column d-flex justify-content-center"></div>
+</div>
+
+
 <div class="container">
   <div class="row" id="tables">
     <div class="col-sm mx-5">
-     
-          <h1>Kierowcy</h1>
-          <table class="table css-serial">
-            <thead>
-              <tr>
-                <th>Imię</th>
-                <th>Nazwisko</th>
-                <th>Punkty</th>
-              </tr>
-            </thead>
 
-            <tbody>
+      <h1>Kierowcy</h1>
+      <table class="table css-serial">
+        <thead>
+          <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Punkty</th>
+          </tr>
+        </thead>
 
-              {% for obj in object_list %}
-              <tr>
-                <td>{{ obj.name }}</td>
-                <td>{{ obj.surname}}</td>
-                <td>{{ obj.points}}</td>
-                
-              </tr>
-              {% endfor %}
+        <tbody>
 
-            </tbody>
-          </table>       
-      </div>
-      <div class="col-sm mx-5">
-        <!-- <div class="d-flex p-2"></div> -->
-      
-      
-        <h1>Zespoły</h1>
-        <table class="table css-serial">
-          <thead>
-            <tr>
-              <th>Nazwa</th>
-              <th>Szef zespołu</th>
-            </tr>
-          </thead>
-      
-          <tbody>
-      
-            {% for team in team_list %}
-            <tr>
-              <td>{{ team.name }}</td>
-              <td>{{ team.team_chief}}</td>
-            </tr>
-            {% endfor %}
-      
-          </tbody>
-        </table>
-      </div>
+          {% for obj in object_list %}
+          <tr>
+            <td>{{ obj.name }}</td>
+            <td>{{ obj.surname}}</td>
+            <td>{{ obj.points}}</td>
 
-      <!-- <div class="d-flex p-2"> -->
+          </tr>
+          {% endfor %}
 
-      
-        <div class="col-sm">
-          <h1>Kalendarz</h1>
-          {{ form | crispy }}
-          <table class="table css-serial">
-            <thead>
-              <tr>
-                <th>Nazwa</th>
-                <th>Data</th>
-              </tr>
-            </thead>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm mx-5">
+      <h1>Zespoły</h1>
+      <table class="table css-serial">
+        <thead>
+          <tr>
+            <th>Nazwa</th>
+            <th>Szef zespołu</th>
+          </tr>
+        </thead>
 
-            <tbody>
+        <tbody>
 
-              {% for gp in gp_list %}
-              
-              <tr>
-                <td>
-                <form action="/race/" method="post">
-                  {% csrf_token %}
-                  <button type="submit" name="Gp" value= '{{ gp.full_name }}' class="btn-link">{{ gp.full_name }}</button>
-                </form>
-                </td>
-                
-                <td><p id={{ gp.round_number }}></p></td>
-                <script>
-                  var race = "{{ gp.race|date:'Y-m-d H:i' }}";
-                  var num = "{{ gp.round_number }}";
-                  var date = new Date(race+"Z");
-                  date = date.toLocaleString();
-                  document.getElementById(num).innerHTML = date;
-                </script>
-              </tr>
-              {% endfor %}
+          {% for team in team_list %}
+          <tr>
+            <td>{{ team.name }}</td>
+            <td>{{ team.team_chief}}</td>
+          </tr>
+          {% endfor %}
 
-            </tbody>
-          </table>
-        </div>
-      
-      <!-- </div> -->
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="col-sm">
+      <h1>Kalendarz</h1>
+      {{ form | crispy }}
+      <table class="table css-serial">
+        <thead>
+          <tr>
+            <th>Nazwa</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {% for gp in gp_list %}
+
+          <tr>
+            <td>
+              <form action="/race/" method="post">
+                {% csrf_token %}
+                <button type="submit" name="Gp" value='{{ gp.full_name }}' class="btn-link">{{gp.full_name}}</button>
+              </form>
+            </td>
+
+            <td>
+              <p id={{ gp.round_number }}></p>
+            </td>
+            <script>
+              var race = "{{ gp.race|date:'Y-m-d H:i' }}";
+              var num = "{{ gp.round_number }}";
+              var date1 = new Date(race + "Z");
+              date1 = date1.toLocaleString();
+              document.getElementById(num).innerHTML = date1;
+            </script>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
 
 
-  {% endblock %}
+
+
+{% endblock %}

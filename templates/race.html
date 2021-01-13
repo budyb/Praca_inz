@@ -30,116 +30,117 @@
 {%endblock%}
 {% block content %}
 
-    <div class="d-flex p-2">
-        <div class="container">
-            <h1>Informacje o GP</h1>
-            <table class="table css-serial">
-                <thead>
-                    <tr>
-                        <th>Nazwa toru</th>
-                        <th>Kraj</th>
-                        <th>Pełna nazwa</th>
-                        <th>Początek wyścigu</th>
-                        <th>Początek kwalifikacji</th>
-                        <th>Początek trzeciego treningu</th>
-                        <th>Początek drugiego treningu</th>
-                        <th>Początek pierwszego treningu</th>
-                    </tr>
-                </thead>
+<div class="d-flex p-2">
+    <div class="container">
+        <h1>Informacje o GP</h1>
+        <table class="table css-serial">
+            <thead>
+                <tr>
+                    <th>Nazwa toru</th>
+                    <th>Kraj</th>
+                    <th>Pełna nazwa</th>
+                    <th>Początek wyścigu</th>
+                    <th>Początek kwalifikacji</th>
+                    <th>Początek trzeciego treningu</th>
+                    <th>Początek drugiego treningu</th>
+                    <th>Początek pierwszego treningu</th>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <tr>
-                        <td>{{ gp.circuit }}</td>
-                        <td>{{ gp.country }}</td>
-                        <td>{{ gp.full_name }}</td>
-                        <td>
-                            <p id="race"></p>
-                        </td>
-                        <script>
-                            var race = "{{ gp.race|date:'Y-m-d H:i' }}";
-                            var rdate = new Date(race + "Z");
-                            rdate = rdate.toLocaleString();
-                            
-                            
-                            document.getElementById("race").innerHTML = rdate;
-                            
-                            
-                        </script>
-                        <td>
-                            <p id="quali"></p>
-                        </td>
-                        <script>
-                            var quali = "{{ gp.quali|date:'Y-m-d H:i' }}";
-                            var qdate = new Date(quali + "Z");
-                            
-                            qdate = qdate.toLocaleString();
-                            document.getElementById("quali").innerHTML = qdate;
-                        </script>
-                        <td>
-                            <p id="fp3"></p>
-                        </td>
-                        <script>
-                            var fp3 = "{{ gp.fp3|date:'Y-m-d H:i' }}";
-                            if (fp3 != "") {
-                                var fp3date = new Date(fp3 + "Z");
+            <tbody>
+                <tr>
+                    <td>{{ gp.circuit }}</td>
+                    <td>{{ gp.country }}</td>
+                    <td>{{ gp.full_name }}</td>
+                    <td>
+                        <p id="race"></p>
+                    </td>
+                    <script>
+                        var race = "{{ gp.race|date:'Y-m-d H:i' }}";
+                        var rdate = new Date(race + "Z");
+                        rdate = rdate.toLocaleString();
 
-                                fp3date = fp3date.toLocaleString();
-                            }
-                            else {
-                                var fp3date = "Anulowane"
-                            }
-                            document.getElementById("fp3").innerHTML = fp3date;
-                        </script>
-                        <td>
-                            <p id="fp2"></p>
-                        </td>
-                        <script>
-                            var fp2 = "{{ gp.fp2|date:'Y-m-d H:i' }}";
-                            if (fp2 != "") {
-                                var fp2date = new Date(fp2 + "Z");
 
-                                fp2date = fp2date.toLocaleString();
-                            }
-                            else {
-                                var fp2date = "Anulowane"
-                            }
-                            document.getElementById("fp2").innerHTML = fp2date;
-                        </script>
-                        
-                        <td>
-                            <p id="fp1"></p>
-                        </td>
-                        <script>
-                            var fp1 = "{{ gp.fp1|date:'Y-m-d H:i' }}";
-                            if(fp1!=""){
+                        document.getElementById("race").innerHTML = rdate;
+
+
+                    </script>
+                    <td>
+                        <p id="quali"></p>
+                    </td>
+                    <script>
+                        var quali = "{{ gp.quali|date:'Y-m-d H:i' }}";
+                        var qdate = new Date(quali + "Z");
+
+                        qdate = qdate.toLocaleString();
+                        document.getElementById("quali").innerHTML = qdate;
+                    </script>
+                    <td>
+                        <p id="fp3"></p>
+                    </td>
+                    <script>
+                        var fp3 = "{{ gp.fp3|date:'Y-m-d H:i' }}";
+                        if (fp3 != "") {
+                            var fp3date = new Date(fp3 + "Z");
+
+                            fp3date = fp3date.toLocaleString();
+                        }
+                        else {
+                            var fp3date = "Anulowane"
+                        }
+                        document.getElementById("fp3").innerHTML = fp3date;
+                    </script>
+                    <td>
+                        <p id="fp2"></p>
+                    </td>
+                    <script>
+                        var fp2 = "{{ gp.fp2|date:'Y-m-d H:i' }}";
+                        if (fp2 != "") {
+                            var fp2date = new Date(fp2 + "Z");
+
+                            fp2date = fp2date.toLocaleString();
+                        }
+                        else {
+                            var fp2date = "Anulowane"
+                        }
+                        document.getElementById("fp2").innerHTML = fp2date;
+                    </script>
+
+                    <td>
+                        <p id="fp1"></p>
+                    </td>
+                    <script>
+                        var fp1 = "{{ gp.fp1|date:'Y-m-d H:i' }}";
+                        if (fp1 != "") {
                             var fp1date = new Date(fp1 + "Z");
-                            
+
                             fp1date = fp1date.toLocaleString();
-                            }
-                            else
-                            {
-                               var fp1date = "Anulowane"
-                            }
-                            document.getElementById("fp1").innerHTML = fp1date;
-                        </script>
-                       
-                    </tr>
+                        }
+                        else {
+                            var fp1date = "Anulowane"
+                        }
+                        document.getElementById("fp1").innerHTML = fp1date;
+                    </script>
 
-                </tbody>
-            </table>
-        </div>
+                </tr>
 
+            </tbody>
+        </table>
     </div>
-    <!-- <h1>Mapa</h1> -->
-    <div class="container" id="mymap">
-        <div class="row">
-            <div class="mx-auto my-1  col-sm-5">
-                <script>
-                    var obiekt = "{{ gp.circuit }}";
-                </script>
-                <div id="app"> {% render_bundle 'index' 'js' %}</div>
-            </div>
+</div>
+
+<div class="container" id="mymap">
+    <div class="row">
+        <div class="mx-auto my-1  col-sm-5">
+            <script>
+                var obiekt = "{{ gp.circuit }}";
+            </script>
+            <div id="app"> {% render_bundle 'index' 'js' %}</div>
+
+
         </div>
     </div>
+
+</div>
 
 {% endblock %}
