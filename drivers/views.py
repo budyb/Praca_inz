@@ -9,20 +9,20 @@ from datetime import datetime, timezone
 from django.http import JsonResponse
 from django.core import serializers
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 
-from drivers.models import Driver, Schedule, Team
-from drivers.forms import RegisterForm, UserUpdateForm, LoginForm
+from drivers.models import *
+from drivers.forms import *
 
 
 class NextRace:
+    next_race = ''
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data()
+    def get_next_race():
         now = datetime.now(timezone.utc)
-        next_race = ''
+
         list = Schedule.objects.all()
         lowest_delta = 99999999
         for gp in list:
@@ -32,8 +32,7 @@ class NextRace:
             elif delta < lowest_delta:
                 next_race = gp
                 lowest_delta = delta
-        context["next_race"] = next_race
-        return context
+        return next_race
 
 
 class Home(NextRace, TemplateView):
@@ -49,6 +48,7 @@ class Home(NextRace, TemplateView):
         context["gp_list"] = query
         teams = Team.objects.all()
         context["team_list"] = teams
+        context["next_race"] = NextRace.get_next_race()
         return context
 
 
@@ -132,3 +132,46 @@ class Map(TemplateView):
         context["gp"] = gp
 
         return render(request, 'race.html', context)
+
+
+@method_decorator(login_required, name='dispatch')
+class Types(NextRace, FormView):
+    template_name = 'types.html'
+    form_class = TypeForm
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Typowanie'
+        context["next_race"] = NextRace.get_next_race()
+        return context
+
+    def post(self, request):
+        form = TypeForm(request.POST)
+        if form.is_valid():
+            usr = request.user
+            ranking = ''
+            rankingList = Ranking.objects.all()
+            for rank in rankingList:
+                if rank.username == usr:
+                    ranking = rank
+                    break
+                else:
+                    continue
+            if ranking is '':
+                ranking = Ranking(username=usr)
+                ranking.save()
+            form.save(commit=False)
+            first = form.cleaned_data.get('first')
+            second = form.cleaned_data.get('second')
+            third = form.cleaned_data.get('third')
+            race = NextRace.get_next_race()
+
+            prediction = Prediction(user=usr,
+                                    race=race, ranking=ranking, first=first, second=second, third=third)
+            prediction.save()
+            return redirect('types')
+        else:
+            form = TypeForm()
+            messages.warning(request, f'Wprowadź poprawne dane')
+            return redirect('types')

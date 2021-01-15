@@ -16,6 +16,7 @@
   dateS = date.toLocaleString();
   console.log(date);
   document.getElementById("nextrace").innerHTML = dateS;
+
 </script>
 
 <div id="timer" class="flex-wrap d-flex justify-content-center">
@@ -24,6 +25,8 @@
   <div id="minutes" class="align-items-center flex-column d-flex justify-content-center"></div>
   <div id="seconds" class="align-items-center flex-column d-flex justify-content-center"></div>
 </div>
+
+
 
 
 <div class="container">
@@ -105,7 +108,7 @@
               <p id={{ gp.round_number }}></p>
             </td>
             <script>
-              var race = "{{ gp.race|date:'Y-m-d H:i' }}";
+              var race = "{{ gp.race | date:'Y-m-d H:i' }}";
               var num = "{{ gp.round_number }}";
               var date1 = new Date(race + "Z");
               date1 = date1.toLocaleString();

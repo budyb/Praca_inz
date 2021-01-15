@@ -12,3 +12,5 @@ class AuthorAdmin(admin.ModelAdmin):
 admin.site.register(Driver, AuthorAdmin)
 admin.site.register(Team, AuthorAdmin)
 admin.site.register(Schedule, AuthorAdmin)
+admin.site.register(Ranking, AuthorAdmin)
+admin.site.register(Prediction, AuthorAdmin)
