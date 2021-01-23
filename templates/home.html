@@ -5,21 +5,19 @@
 {% block content %}
 
 
-</div>
+
 {{ next_race.circuit }}
 <p id=nextrace></p>
 <script>
   var nextgp = "{{ next_race.race|date:'Y-m-d H:i' }}";
-
   var date = new Date(nextgp + "Z");
-
   dateS = date.toLocaleString();
   console.log(date);
   document.getElementById("nextrace").innerHTML = dateS;
-
 </script>
-
+ 
 <div id="timer" class="flex-wrap d-flex justify-content-center">
+  Do {{ next_race.full_name }} pozostało:
   <div id="days" class="align-items-center flex-column d-flex justify-content-center"></div>
   <div id="hours" class="align-items-center flex-column d-flex justify-content-center"></div>
   <div id="minutes" class="align-items-center flex-column d-flex justify-content-center"></div>
@@ -28,17 +26,14 @@
 
 
 
-
 <div class="container">
   <div class="row" id="tables">
     <div class="col-sm mx-5">
-
       <h1>Kierowcy</h1>
       <table class="table css-serial">
         <thead>
           <tr>
-            <th>Imię</th>
-            <th>Nazwisko</th>
+            <th>Kierowca</th>            
             <th>Punkty</th>
           </tr>
         </thead>
@@ -47,8 +42,7 @@
 
           {% for obj in object_list %}
           <tr>
-            <td>{{ obj.name }}</td>
-            <td>{{ obj.surname}}</td>
+            <td>{{ obj }}</td>            
             <td>{{ obj.points}}</td>
 
           </tr>
@@ -57,12 +51,14 @@
         </tbody>
       </table>
     </div>
+    
     <div class="col-sm mx-5">
       <h1>Zespoły</h1>
       <table class="table css-serial">
         <thead>
           <tr>
             <th>Nazwa</th>
+            <th>Punkty</th>
             <th>Szef zespołu</th>
           </tr>
         </thead>
@@ -70,10 +66,27 @@
         <tbody>
 
           {% for team in team_list %}
+          
           <tr>
-            <td>{{ team.name }}</td>
+            <td>{{ team}}</td>
+            <td><p id={{ team }}></p></td>
             <td>{{ team.team_chief}}</td>
           </tr>
+          <script>
+            var points = 0;
+            var team = "{{ team }}"
+          </script>
+          {% for driver in team.driver.all %}
+          <script>
+            var driver_points = parseInt("{{ driver.points }}");
+            points = points + driver_points;
+            if(team == "Racing-Point"){
+              points = points-15;
+            }
+            console.log(points);
+            document.getElementById(team).innerHTML = points;
+          </script>
+          {% endfor %}
           {% endfor %}
 
         </tbody>
@@ -123,7 +136,7 @@
   </div>
 </div>
 
-
+<script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/clock.bundle.js"></script>
 
 
 {% endblock %}

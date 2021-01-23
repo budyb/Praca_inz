@@ -44,7 +44,7 @@ class Home(NextRace, TemplateView):
         context["title"] = 'Strona główna'
         queryset = Driver.objects.all().order_by('-points')
         context["object_list"] = queryset
-        query = Schedule.objects.all()
+        query = Schedule.objects.all().order_by('race')
         context["gp_list"] = query
         teams = Team.objects.all()
         context["team_list"] = teams
@@ -129,7 +129,9 @@ class Map(TemplateView):
                 break
             else:
                 continue
+        results = Result.objects.filter(season__year=2020).filter(gp=gp)
         context["gp"] = gp
+        context["results"] = results
 
         return render(request, 'race.html', context)
 
@@ -152,9 +154,17 @@ class Types(NextRace, FormView):
             usr = request.user
             ranking = ''
             rankingList = Ranking.objects.all()
+            race = NextRace.get_next_race()
             for rank in rankingList:
                 if rank.username == usr:
                     ranking = rank
+                    for prediction in ranking.Predictions.all():
+                        if prediction.race.full_name == race.full_name:
+                            messages.warning(
+                                request, f'Wytypowałeś już wyniki tego wyścigu')
+                            return redirect('types')
+                        else:
+                            continue
                     break
                 else:
                     continue
@@ -165,12 +175,11 @@ class Types(NextRace, FormView):
             first = form.cleaned_data.get('first')
             second = form.cleaned_data.get('second')
             third = form.cleaned_data.get('third')
-            race = NextRace.get_next_race()
-
             prediction = Prediction(user=usr,
                                     race=race, ranking=ranking, first=first, second=second, third=third)
             prediction.save()
-            return redirect('types')
+            messages.success(request, f'Wytypowano wyniki!')
+            return redirect('home')
         else:
             form = TypeForm()
             messages.warning(request, f'Wprowadź poprawne dane')

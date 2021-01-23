@@ -13,7 +13,19 @@
         <form method="POST">
             {% csrf_token %}
             {{ form | crispy }}
-            <button type="submit">Wyślij</button>
+            <button id=submitbutton type="submit">Wyślij</button>
+            <script>
+                var button = document.getElementById("submitbutton");
+                var race = "{{ next_race.race|date:'Y-m-d H:i' }}";
+                var race_day = new Date(race);
+                var now = new Date();
+                if (race_day.getMonth() == now.getMonth() && race_day.getDate() == now.getDate()) {
+                    button.disabled = true;
+                }
+                else {
+                    button.disabled = false;
+                }
+            </script>
         </form>
         {{ next_race }}
     </div>

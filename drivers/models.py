@@ -10,7 +10,7 @@ class Driver(models.Model):
     nationality = models.CharField(
         max_length=150, default="No info", null=True)
     team = models.ForeignKey('Team', to_field='name',
-                             null=True, on_delete=models.SET_NULL)
+                             null=True, on_delete=models.SET_NULL, related_name="driver")
     points = models.IntegerField(default=0)
     podiums = models.CharField(max_length=150, default="0", null=True)
     total_points = models.IntegerField(default=0, null=True)
@@ -75,3 +75,23 @@ class Prediction(models.Model):
                              on_delete=models.SET('%(class)s_EmptyR'), related_name="Types_race")
     ranking = models.ForeignKey(
         'Ranking', null=False, on_delete=models.CASCADE, related_name="Predictions")
+
+class Season(models.Model):
+    year = models.IntegerField(default = 1970)
+
+    def __str__(self):
+        return str(self.year)
+
+class Result(models.Model):
+    season = models.ForeignKey("Season", null=True, on_delete=models.SET_NULL)
+    gp = models.ForeignKey("Schedule", default=0, null=False, on_delete=models.SET_DEFAULT, related_name="results")
+    driver = models.ForeignKey("Driver", default="No info", null=False, on_delete=models.SET_DEFAULT)
+    points = models.IntegerField(default=0)
+    position = models.IntegerField(default = 20)
+        
+class HistoricResult(models.Model):
+    season = models.ForeignKey("Season", null=True, on_delete=models.SET_NULL)
+    gpName = models.CharField(max_length=350, null=False, default="No info")
+    historicDriver = models.CharField(max_length = 350, null = False)
+    hisPoints = models.IntegerField(default = 0)
+    hisPosition = models.IntegerField(default = 20)
