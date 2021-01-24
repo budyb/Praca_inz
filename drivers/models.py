@@ -2,6 +2,8 @@ from django.db import models
 from datetime import date
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.db.models.query import QuerySet
+from django_group_by import GroupByMixin
 
 
 class Driver(models.Model):
@@ -82,16 +84,31 @@ class Season(models.Model):
     def __str__(self):
         return str(self.year)
 
+class ResultQuerySet(QuerySet, GroupByMixin):
+    pass
+
 class Result(models.Model):
+    objects = ResultQuerySet.as_manager()
     season = models.ForeignKey("Season", null=True, on_delete=models.SET_NULL)
     gp = models.ForeignKey("Schedule", default=0, null=False, on_delete=models.SET_DEFAULT, related_name="results")
     driver = models.ForeignKey("Driver", default="No info", null=False, on_delete=models.SET_DEFAULT)
     points = models.IntegerField(default=0)
     position = models.IntegerField(default = 20)
+
+    def __str__(self):
+        return self.gp.full_name
+
+class HistoricResultQuerySet(QuerySet, GroupByMixin):
+    pass
         
 class HistoricResult(models.Model):
+    objects = HistoricResultQuerySet.as_manager()
     season = models.ForeignKey("Season", null=True, on_delete=models.SET_NULL)
     gpName = models.CharField(max_length=350, null=False, default="No info")
     historicDriver = models.CharField(max_length = 350, null = False)
     hisPoints = models.IntegerField(default = 0)
     hisPosition = models.IntegerField(default = 20)
+
+    def __str__(self):
+        return self.gpName
+

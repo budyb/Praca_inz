@@ -12,6 +12,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
+from django_group_by import GroupByMixin
 
 from drivers.models import *
 from drivers.forms import *
@@ -184,3 +185,43 @@ class Types(NextRace, FormView):
             form = TypeForm()
             messages.warning(request, f'Wprowadź poprawne dane')
             return redirect('types')
+
+class Results(TemplateView):
+    template_name = 'results.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["seasons"] = Season.objects.all().order_by('year')
+        context["title"] = 'Nowa strona'
+        return context
+
+    def post(self, request):
+        context = self.get_context_data(self)
+        season_id = request.POST['Rok']
+        if season_id:
+            race_name = request.POST['Race']
+            season = Season.objects.get(id=season_id) 
+            if not race_name:        
+                           
+                if season.year < 2020:
+                    context['season'] = season
+                    context['historic_races'] = HistoricResult.objects.filter(season=season).group_by('gpName').distinct()
+                    print(HistoricResult.objects.filter(season=season).group_by('gpName').distinct()[0].gpName)
+                else:
+                    context['season'] = season
+                    context['races'] = Result.objects.filter(season=season).group_by('season','gp__full_name').distinct()
+                
+                messages.success(request, f'Wytypowano wyniki!')
+                return render(request, 'results.html', context)
+            else:
+                if season.year < 2020:
+                    context['historic_results'] = HistoricResult.objects.filter(season=season, gpName=race_name)
+                    print( HistoricResult.objects.filter(season=season, gpName=race_name)[0].historicDriver)
+                else:
+                    context['results'] = Result.objects.filter(season=season, gp__full_name= race_name)
+
+                return render(request, 'results.html', context)
+        else:
+            messages.warning(request, f'Wybierz sezon!')
+            return render(request, 'results.html', context)

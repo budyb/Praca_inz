@@ -2,7 +2,8 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from drivers.models import Driver, Prediction
+from django.db.models import Count
+from drivers.models import Driver, Prediction, Season, Result, HistoricResult
 
 
 class RegisterForm(UserCreationForm):
@@ -58,3 +59,24 @@ class TypeForm(forms.ModelForm):
     class Meta:
         model = Prediction
         fields = ['first', 'second', 'third']
+
+# class ResultsForm(forms.ModelForm):
+#     year = forms.ModelChoiceField(queryset=Season.objects.all().order_by('year'))
+#     results= HistoricResult.objects.values_list('gpName').order_by('season__year').distinct()#.filter(season__year=2017)
+#     # results = results.values_list('gpName')
+#     # print(type(results))
+#     # print(results[1])
+#     # # res=[]
+#     # for re in results:
+#     #     re = str(re).replace("'","dsasdadas")
+#     #     print(re)
+
+#     # # print(results[1]['gpName'])
+#     # print(results)
+#     #print(results['gpName'])
+#     #results = results.group_by["gp.full_name"]
+#     result = forms.ModelChoiceField(queryset=results, to_field_name='gpName' )
+
+#     class Meta:
+#         model = Season
+#         fields = ['year']

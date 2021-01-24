@@ -9,10 +9,19 @@ from drivers.models import *
 
 class Command(BaseCommand):
 
+    def add_arguments(self, parser):
+        parser.add_argument('year', type=int, help='Season represented by year')
+
+        parser.add_argument('-r', '--race', type=str, help='GrandPrix full name(if not defined, all season will be downloaded)', )
+
     def handle(self, *args, **options):
         races = Schedule.objects.all()
         drivers = Driver.objects.all()
-        year = "1950"
+        year = str(options['year'])
+        wanted_race = options['race']
+        one_race = False
+        if wanted_race:
+            one_race = True
         Historic = False
         if int(year) < 2020:
             Historic = True
@@ -40,17 +49,18 @@ class Command(BaseCommand):
             r.encoding = r.apparent_encoding
             soup = BeautifulSoup(r.text, "html.parser")  
 
-            data = str(soup.findAll("span",**{"class": "full-date"})).replace('[<span class="full-date">',"")
-            data = data.replace('</span>]',"")
+            data = soup.find("span",**{"class": "full-date"}).text
             data = datetime.strptime(data, "%d %b %Y").date()
             race_name = soup.find("h1",**{"class": "ResultsArchiveTitle"})
             race_name = race_name.text.replace("- RACE RESULT","").strip()
 
+            if one_race:
+                if race_name != wanted_race:
+                    continue
             seasons = Season.objects.all()
             season = ''
             gp = ''
             found_season = False
-            
             if not seasons:
                 season = Season(year=year)
                 season.save()
@@ -97,5 +107,4 @@ class Command(BaseCommand):
                 else:
                     hist_result = HistoricResult(season=season, gpName=race_name, historicDriver=name+ " "+ surname, hisPoints=points, hisPosition=position)
                     hist_result.save()
-
                 
