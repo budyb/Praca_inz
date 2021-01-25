@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load render_bundle from webpack_loader %} {% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <h1>Typowanie</h1>
+    </div>
+    <div class="d-flex justify-content-center">
+       
+            <div class="col-sm">
+                <h1>Wyniki</h1>
+                {{ form | crispy }}
+                <table class="table css-serial">
+                  <thead>
+                    <tr>
+                      <th>Pozycja</th>
+                      <th>Użytkownik</th>
+                      <th>Punkty</th>
+                    </tr>
+                  </thead>  
+                    
+                   <tbody>
+                    <script>
+                        var position = 1;
+                        var rows = [];
+                    </script>
+                    
+                    {% for ranking in rankings %}
+                           
+                    <tr>
+                     
+                      <td><p id="{{ ranking.username }}"></p></td>
+                      <td>{{ ranking.username }}</td>     
+                      <td>{{ ranking.points }}</td>                    
+                    </tr>
+                    <script>
+                        rows.push({ id: position, username:"{{ ranking.username }}" , points:"{{ ranking.points }}" })
+                        var id = "{{ ranking.username }}";                        
+                        document.getElementById(id).innerHTML = position;
+                        position +=1; 
+                      </script>
+                    {% endfor %}                    
+                  </tbody> 
+                </table>
+                <div id="rank"> {% render_bundle 'rindex' 'js' %}</div>
+                    <script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/rindex.bundle.js"></script>
+              </div>
+
+        {{ next_race }}
+    </div>
+</div>
+
+{% endblock %}

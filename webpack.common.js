@@ -7,8 +7,11 @@ module.exports = {
     app: "./static/js/apf.js",
     vendor: "./static/js/vendor.js",
     img: "./static/img/ferrarka.jpg",
+    bckg: "./static/img/image.jpg",
     index: "./static/js/index.js",
     clock: "./static/js/countdown.js",
+    rindex: "./static/js/rindex.js",
+    ranking: "./static/js/ranking.js",
   },
   module: {
     rules: [

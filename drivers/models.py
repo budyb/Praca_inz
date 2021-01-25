@@ -65,8 +65,6 @@ class Ranking(models.Model):
 
 
 class Prediction(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             null=False, on_delete=models.CASCADE)
     first = models.ForeignKey('Driver', null=False,
                               on_delete=models.SET('%(class)s_Empty1'), related_name="Types_first")
     second = models.ForeignKey(

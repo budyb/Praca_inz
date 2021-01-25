@@ -225,3 +225,14 @@ class Results(TemplateView):
         else:
             messages.warning(request, f'Wybierz sezon!')
             return render(request, 'results.html', context)
+
+@method_decorator(login_required, name='dispatch')
+class RankingView(TemplateView):
+    template_name = 'ranking.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Ranking'
+        context["rankings"] = Ranking.objects.all().order_by('-points')
+        return context

@@ -15,6 +15,9 @@
   {% render_bundle 'app' 'css' %}
   {% endblock %}
 </head>
+<body >
+
+
 {% block body %}
 {% include './navbar.html' %}
 {% if messages %}
@@ -24,11 +27,16 @@
 </div>
 {% endfor %}
 {% endif %}
-
+<img style="opacity: 0.5; background-image: url('{% static "./img/image.jpg" %}');></img>
 {% block content %}
 
 
 {% endblock %}
+
+
+</body>
+
+
 
 {% if settings.DEBUG and settings.WEBPACK_LIVE_SERVER %}
 <script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/vendor.bundle.js"></script>

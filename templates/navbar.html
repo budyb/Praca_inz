@@ -20,15 +20,17 @@
             </li>
 
             {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Wyloguj</a>
-            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="/profile">Mój profil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/types">Typowanie</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/ranking">Ranking</a>
+            </li>
+            
                         
             {% else %}
             <li class="nav-item">
@@ -43,6 +45,9 @@
         <form class="form-inline my-2 my-lg-0">
             {% if user.is_authenticated %}
                 <a class="nav-link" >Jesteś zalogowany jako {{ user }}</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Wyloguj</a>
+                </li>
             {% endif %}
         </form>
     </div>

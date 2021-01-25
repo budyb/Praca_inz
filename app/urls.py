@@ -27,5 +27,6 @@ urlpatterns = [
     path('profile/', Profile.as_view(), name='profile'),
     path('race/', Map.as_view(), name='map'),
     path('types/', Types.as_view(), name='types'),
-    path('results/', Results.as_view(), name='results')
+    path('results/', Results.as_view(), name='results'),
+    path('ranking/', RankingView.as_view(), name='ranking')
 ]
