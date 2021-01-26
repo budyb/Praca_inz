@@ -27,14 +27,20 @@ class RegisterForm(UserCreationForm):
 
 class UserUpdateForm(forms.ModelForm):
     username = forms.CharField(
-        max_length=40, required=False, help_text='Obowiązkowe', label="Login")
-    email = forms.EmailField(max_length=254, required=False, help_text='Obowiązkowe')
+
+ 
+
+        max_length=40, required=True, help_text='Obowiązkowe', label="Login")
+    email = forms.EmailField(max_length=254, required=True, help_text='Obowiązkowe')
     password = forms.CharField(widget=forms.PasswordInput(
-    ), label="Hasło", required=False, help_text="Hasło musi się składać przynajmniej z 8 znaków")
+    ), label="Hasło", required=True, help_text="Hasło musi się składać przynajmniej z 8 znaków")
+    
+
 
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
+
 
 
 class LoginForm(AuthenticationForm):
@@ -60,28 +66,12 @@ class TypeForm(forms.ModelForm):
         model = Prediction
         fields = ['first', 'second', 'third']
 
+
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100)
     email = forms.EmailField()
     message = forms.CharField(widget=forms.Textarea)
 
-# class ResultsForm(forms.ModelForm):
-#     year = forms.ModelChoiceField(queryset=Season.objects.all().order_by('year'))
-#     results= HistoricResult.objects.values_list('gpName').order_by('season__year').distinct()#.filter(season__year=2017)
-#     # results = results.values_list('gpName')
-#     # print(type(results))
-#     # print(results[1])
-#     # # res=[]
-#     # for re in results:
-#     #     re = str(re).replace("'","dsasdadas")
-#     #     print(re)
 
-#     # # print(results[1]['gpName'])
-#     # print(results)
-#     #print(results['gpName'])
-#     #results = results.group_by["gp.full_name"]
-#     result = forms.ModelChoiceField(queryset=results, to_field_name='gpName' )
 
-#     class Meta:
-#         model = Season
-#         fields = ['year']
+

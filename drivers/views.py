@@ -120,14 +120,31 @@ class Logout(auth_views.LogoutView):
 @method_decorator(login_required, name='dispatch')
 class Profile(TemplateView):
     template_name = 'profile.html'
+    form_class = UserUpdateForm
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Mój profil'
-        context["user_update"] = UserUpdateForm
+        context["user_update"] = self.form_class
         return context
 
+    def post(self, request):
+        form = UserUpdateForm(request.POST,instance=request.user)
+        user = self.request.user 
+        if request.method == 'POST':
+            if form.is_valid():
+                raw_password = form.cleaned_data.get('password')
+                form.save()
+                user.set_password(raw_password)
+                user.save()                
+                messages.success(request,'Zaktualizowano profil!')
+                return redirect('home')
+                print(user)
+            else:
+                form = UserUpdateForm(instance=request.user.profile)
+                context = self.get_context_data(self)
+                return render(request, 'profile.html',context )
 
 class Map(TemplateView):
     template_name = 'race.html'
@@ -193,7 +210,10 @@ class Types(NextRace, FormView):
             first = form.cleaned_data.get('first')
             second = form.cleaned_data.get('second')
             third = form.cleaned_data.get('third')
-            prediction = Prediction(race=race, ranking=ranking, first=first, second=second, third=third)
+
+            prediction = Prediction(
+                                    race=race, ranking=ranking, first=first, second=second, third=third)
+
             prediction.save()
             messages.success(request, f'Wytypowano wyniki!')
             return redirect('home')
