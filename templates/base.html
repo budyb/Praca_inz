@@ -21,7 +21,9 @@
 
 
 {% block body %}
+<div class="custom-navbar">
 {% include './navbar.html' %}
+</div>
 {% if messages %}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }}">

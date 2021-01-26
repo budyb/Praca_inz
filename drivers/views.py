@@ -68,6 +68,19 @@ class Classification(NextRace, TemplateView):
         context["team_list"] = teams
         return context
 
+class TeamClassification(NextRace, TemplateView):
+    template_name = 'team_classification.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Klasyfikacja'
+        queryset = Driver.objects.all().order_by('-points')
+        context["object_list"] = queryset
+        teams = Team.objects.all()
+        context["team_list"] = teams
+        return context        
+
 
 
 class Register(FormView):
@@ -239,7 +252,7 @@ class Results(TemplateView):
             race_name = request.POST['Race']
             season = Season.objects.get(id=season_id) 
             if not race_name:        
-                           
+                context['show'] = "show"       
                 if season.year < 2020:
                     context['season'] = season
                     context['historic_races'] = HistoricResult.objects.filter(season=season).group_by('gpName').distinct()
@@ -248,9 +261,10 @@ class Results(TemplateView):
                     context['season'] = season
                     context['races'] = Result.objects.filter(season=season).group_by('season','gp__full_name').distinct()
                 
-                messages.success(request, f'Wytypowano wyniki!')
+                
                 return render(request, 'results.html', context)
             else:
+                
                 if season.year < 2020:
                     context['historic_results'] = HistoricResult.objects.filter(season=season, gpName=race_name)
                     print( HistoricResult.objects.filter(season=season, gpName=race_name)[0].historicDriver)

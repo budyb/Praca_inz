@@ -7,10 +7,11 @@
 
 <div class="container">
     <div class="d-flex justify-content-center">
-        <h1>Typowanie</h1>
+        <h1 class="d-flex justify-content-center my-5">Sprawdź wyniki wyścigów</h1>
     </div>
     <div class="d-flex justify-content-center">
         <form method="POST">
+        <h5 class="mt-5 d-flex justify-content-center"> Wybierz rok, w którym odbył się wyścig</h5>
             {% csrf_token %}
             {{ form | crispy }}
             <select multiple name="Rok" size="4">
@@ -24,9 +25,11 @@
                 {% endfor %}   
                 {% endif %}           
               </select>
-
-              
+           
+          <div id="mydiv" style ="display:none">
+              <h5 class="d-flex justify-content-center mt-5"> Wybierz wyścig</h5>
               <select multiple name="Race" size="4">
+
                 <option value="" selected>-----</option>
                 {% if races %}
                 {% for race in races %}             
@@ -40,9 +43,17 @@
                 {% endif %} 
                 
               </select>
-            <button id=submitbutton type="submit">Wyślij</button>
-            <div class="col-sm">
-                <h1>Wyniki</h1>
+                   
+                    </div>
+                    {% if show %}
+                    <script> document.getElementById("mydiv").style.display="block" </script>
+                    {% endif %}
+                  
+            <button class="btn btn-lg btn-danger" id=submitbutton type="submit">Sprawdź</button>
+</div>
+      {% if results or historic_results %}
+            <div class="mt-5 pt-5 col-sm">
+                <h1 class="d-flex justify-content-center mt-5 pt-5">Wyniki</h1>
                 {{ form | crispy }}
                 <table class="table css-serial">
                   <thead>
@@ -53,7 +64,7 @@
                     </tr>
                   </thead>          
                   <tbody>
-                    {% if results %}
+               
                     {% for result in results %}          
                     <tr>
                       <td>{{ result.position }}</td>          
@@ -61,9 +72,9 @@
                       <td>{{ result.points }}</td>                    
                     </tr>
                     {% endfor %}
-                    {% endif %}
+                 
 
-                    {% if historic_results %}
+                  
                     {% for historic_result in historic_results %}          
                     <tr>
                       <td>{{ historic_result.hisPosition }}</td>          
@@ -71,11 +82,16 @@
                       <td>{{ historic_result.hisPoints }}</td>                    
                     </tr>
                     {% endfor %}
-                    {% endif %}
+                   
           
                   </tbody>
                 </table>
               </div>
+            
+             
+              {% endif %}
+               
+             
         </form>
         {{ next_race }}
     </div>
