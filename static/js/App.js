@@ -61,7 +61,7 @@ function Mapp() {
       className="map"
       center={position}
       zoom={3}
-      style={{ height: 500, width: "100%" }}
+
     >
       <TileLayer
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

@@ -31,4 +31,5 @@ urlpatterns = [
     path('ranking/', RankingView.as_view(), name='ranking'),
     path('classification/', Classification.as_view(), name='classification'),
     path('contact/', Contact.as_view(), name='contact'),
+    path('team_classification/', TeamClassification.as_view(), name='TeamClassification'),
 ]

@@ -22,19 +22,25 @@
     }
 
     .leaflet-container {
-        height: 1400px !important;
-        width: 1400px !important;
-        margin: -10px auto;
-        margin-left: -400px !important;
+        height: 700px !important;
+        width: 920px !important;
+        margin-top: 5rem;
+        margin-left: 16rem !important;
     }
 </style>
+<div class="d-flex justify-content-center">
+  <h1 class="mt-5">Wyniki</h1>
+  </div> <div class="d-flex justify-content-center">
+  <h4 class="mb-5"> <b> {{ gp.full_name }} </b> </h3>
+  </div>
 
-<div>
-    <h1>Wyniki</h1>
-    <table >
+<div class="mt-5 d-flex justify-content-center">
+    {% if results %}
+    <table class="table table-bordered" id="race_table">
+
       <thead>
         <tr>
-            <th>Pozycja</th>
+            <th style="color:red">Pozycja</th>
             <th>Kierowca</th>
             <th>Punkty</th>
         </tr>
@@ -44,7 +50,7 @@
 
         {% for result in results %}
         <tr>
-          <td>{{ result.position }}</td>
+          <td style="color:red;"> {{ result.position }}</td>
           <td>{{ result.driver}}</td>
           <td>{{ result.points}}</td>
         </tr>
@@ -52,12 +58,15 @@
 
       </tbody>
     </table>
+    {% endif %}
+
   </div>
-<div class="d-flex p-2">
-    <div class="container">
-        
-        <h1>Informacje o GP</h1>
-        <table class="table css-serial">
+<div class="card d-flex justify-content-center">
+  
+      <h3 class="d-flex justify-content-center card-header"> <b>Informacje o GP </b></h3>
+
+           <div class="card-body">
+        <table class="table css-serial" id="gp-table">
             <thead>
                 <tr>
                     <th>Nazwa toru</th>
@@ -151,21 +160,18 @@
             </tbody>
         </table>
     </div>
+    </div>
 
     
 </div>
 
-<div class="container" id="mymap">
-    <div class="row">
-        <div class="mx-auto my-1  col-sm-5">
+
             <script>
                 var obiekt = "{{ gp.circuit }}";
             </script>
-            <div id="app"> {% render_bundle 'index' 'js' %}</div>
+            <h4 class="mt-5 d-flex justify-content-center"><b> Mapa toru </b> </h4>
+            <div id="app" class="ml-5"> {% render_bundle 'index' 'js' %}</div>
 
-
-        </div>
-    </div>
 
 </div>
 

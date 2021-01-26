@@ -92,7 +92,59 @@ body {
 
 #sticky-footer {
   background-color: #e10600;
-  margin-top: 7%;
+  margin-top: 15%;
   color: white;
   font-size: 24px;
+}
+
+#race_table {
+  transform: scale(0.6);
+  font-size: 30px;
+  margin-top: -14rem !important;
+}
+#gp_header {
+margin-top: -15rem;
+}
+
+#gp-table {
+  font-weight: 100 !important;
+  font-size: 16px !important;
+  
+
+}
+.card {
+  margin-top: -12rem;
+  margin-left: 19rem;
+  width: 915px;
+}
+.card-body > .table th {
+border-color: black;
+
+}
+ 
+
+
+#submitbutton 
+{
+  position: absolute;
+  top: 60%;
+  right: 25%;
+  z-index: 20000;
+
+}
+body > div.container > div:nth-child(2) > form > select {
+  width: 400px;
+  height: auto;
+  margin-left: 5%;
+  margin-top: 2rem;
+  font-size: 20px;
+}
+
+#mydiv > select {
+  width: 400px;
+  height: auto;
+  margin-left: 5%;
+  margin-top: 2rem;
+  font-size:20px;
+
 }
