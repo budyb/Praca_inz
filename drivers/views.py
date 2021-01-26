@@ -276,29 +276,27 @@ class RankingView(TemplateView):
 class Contact(TemplateView):
     template_name = 'contact.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['settings'] = settings
         context['form'] = ContactForm
         context["title"] = 'Kontakt'
-        context["title_en"] = 'Contact'
         return context
 
     def post(self, request, **kwargs):
         if request.method == 'POST':
 
-            context = self.get_context_data()
+            context = self.get_context_data(self)
             form = ContactForm(request.POST)
             if form.is_valid():
                 # send email code goes here
                 sender_name = form.cleaned_data['name']
                 sender_email = form.cleaned_data['email']
 
-                message = "{0} has sent you a new message:\n\n{1}".format(
-                    sender_name, form.cleaned_data['message'])
-                send_mail('New Enquiry', message, sender_email,
-                          ['MarcinCzuba3@gmail.com'])
-                return redirect('/')
+                message = "{0} has sent you a new message:\n\n{1}".format(sender_name, form.cleaned_data['message'])
+                send_mail('New Enquiry', message, sender_email, ['MarcinCzuba3@gmail.com'])
+                messages.success(request,"Dziala")
+                return redirect('home')
         else:
             form = ContactForm()
 
