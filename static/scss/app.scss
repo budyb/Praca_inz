@@ -1,15 +1,45 @@
 @import "variables";
 @import "~bootstrap/scss/bootstrap";
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
 /* pasek nawigacyjny */
-
+body * {
+  font-family: "Lato", sans-serif;
+}
 #my-navbar {
-  height: 100px;
+  height: 120px;
+  background-color: #e10600;
+  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.438);
+}
+#my-navbar *:not(.dropdown-item) {
+  color: white;
+  font-family: "Lato", sans-serif;
 }
 .navbar-brand img {
-  height: 80px;
+  height: 120px;
 }
-
+@include media-breakpoint-up(lg) {
+  #center {
+    position: absolute;
+    left: 35%;
+    top: 30%;
+    font-size: 20px;
+  }
+  #logged {
+    position: absolute;
+    right: 3%;
+    top: 24%;
+    font-size: 20px;
+    list-style: none;
+  }
+}
+.dropdown-item:hover {
+  background-color: red;
+  color: white;
+}
+.btn-danger {
+  background-color: #e10600 !important;
+}
 /* tabelki na home*/
 
 #tables {
@@ -32,8 +62,37 @@
     margin-left: 1px;
   }
 }
+#center > li.nav-item.dropdown.show > div {
+  color: black;
+}
 
-body{
-  background: url("../img/image.jpg")
-  no-repeat fixed center;
+body {
+  background-color: rgba(182, 43, 43, 0.075);
+}
+.imageb {
+  background-image: url(image.jpg);
+  background-repeat: no-repeat;
+
+  height: 400px;
+  width: 100%;
+}
+#timer {
+  position: absolute;
+  right: 1%;
+  top: 20%;
+}
+#race {
+  font-size: 24px;
+}
+
+.table-bordered td,
+.table-bordered th {
+  border-color: black !important;
+}
+
+#sticky-footer {
+  background-color: #e10600;
+  margin-top: 7%;
+  color: white;
+  font-size: 24px;
 }

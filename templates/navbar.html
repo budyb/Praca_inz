@@ -1,54 +1,94 @@
 {% load staticfiles %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="my-navbar">
-    <a class="navbar-brand">
-        <img src="{% static "img/ferrarka.jpg" %}" alt="My image">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-expand-lg" id="my-navbar">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <a class="navbar-brand" href="/">
+    <img src="{% static "img/log3.jpg" %}" alt="My image">
+  </a>
 
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/results">Wyniki wyścigów</a>
-            </li>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-            {% if user.is_authenticated %}
-            
-            <li class="nav-item">
-                <a class="nav-link" href="/profile">Mój profil</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/types">Typowanie</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ranking">Ranking</a>
-            </li>
-            
-                        
-            {% else %}
-            <li class="nav-item">
-                <a class="nav-link" href="/register">Rejestracja</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/login">Logowanie</a>
-            </li>
-            {% endif %}
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav" id="center">
+    
+      <li class="nav-item active">
+        <a class="nav-link" href="/"
+          >Home <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/classification">Klasyfikacja</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/results">Wyniki</a>
+      </li>
 
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            {% if user.is_authenticated %}
-                <a class="nav-link" >Jesteś zalogowany jako {{ user }}</a>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Wyloguj</a>
-                </li>
-            {% endif %}
-        </form>
-    </div>
+      {% if user.is_authenticated %}
+
+      {% comment %} <li class="nav-item">
+        <a class="nav-link" href="/profile">Mój profil</a>
+      </li> {% endcomment %}
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Typowanie
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/types">Typuj wyścig</a>
+          <a class="dropdown-item" href="/ranking">Zobacz ranking</a>
+      </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/contact">Kontakt</a>
+      </li>
+ 
+
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="/register">Rejestracja</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Logowanie</a>
+      </li>
+      {% endif %}
+    </ul>
+    
+    <form class="form-inline my-2 my-lg-0" id="logged">
+      {% if user.is_authenticated %}
+     <li class="nav-item dropdown">
+     <span> Witaj użytkowniku: </span> <br>
+        <a
+          class="nav-link dropdown-toggle"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+         <b> {{ user }} <b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/profile">Ustawienia konta</a>
+          <a class="dropdown-item" href="/logout">Wyloguj</a>
+      </li>
+   
+  
+      {% endif %}
+    </form>
+  </div>
 </nav>

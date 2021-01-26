@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require("path");
 
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -22,19 +22,19 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: ["html-loader"]
+        use: ["html-loader"],
       },
       {
         test: /\.(svg|png|jpg|gif)$/,
         use: {
           loader: "file-loader",
           options: {
-            name: "[name].[hash].[ext]",
-            outputPath: "./static/img"
-          }
-        }
-      }
-    ]
+            name: "[name].[ext]",
+            outputPath: "./static/img",
+          },
+        },
+      },
+    ],
   },
   resolve: {
     extensions: ["*", ".js", ".jsx"],
