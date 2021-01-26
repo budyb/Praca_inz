@@ -27,11 +27,15 @@ class RegisterForm(UserCreationForm):
 
 class UserUpdateForm(forms.ModelForm):
     username = forms.CharField(
+
+ 
+
         max_length=40, required=True, help_text='Obowiązkowe', label="Login")
     email = forms.EmailField(max_length=254, required=True, help_text='Obowiązkowe')
     password = forms.CharField(widget=forms.PasswordInput(
     ), label="Hasło", required=True, help_text="Hasło musi się składać przynajmniej z 8 znaków")
     
+
 
     class Meta:
         model = User
@@ -61,4 +65,13 @@ class TypeForm(forms.ModelForm):
     class Meta:
         model = Prediction
         fields = ['first', 'second', 'third']
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    message = forms.CharField(widget=forms.Textarea)
+
+
+
 

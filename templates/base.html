@@ -1,9 +1,11 @@
+
 {% load render_bundle from webpack_loader %} {% load staticfiles %}
 
 <!DOCTYPE html>
 <html>
 
 <head>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
   {% block head %}
 
   <meta charset="UTF-8">
@@ -27,12 +29,19 @@
 </div>
 {% endfor %}
 {% endif %}
-<!-- <img style="opacity: 0.5; background-image: url('{% static "./img/image.jpg" %}');></img> -->
+
+{% comment %} <img style="opacity: 0.5; background-image: url('{% static "./img/image.jpg" %}');></img> {% endcomment %}
+
 {% block content %}
 
 
 {% endblock %}
-
+</div>
+<footer id="sticky-footer" class="py-4">
+      <div class="container text-center">
+        <small>Copyright &copy; Marcin Czuba</small> <br />
+      </div>
+    </footer>
 
 </body>
 

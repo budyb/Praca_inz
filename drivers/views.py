@@ -5,6 +5,8 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timezone
+from .forms import ContactForm
+from django.core.mail import send_mail
 
 from django.http import JsonResponse
 from django.core import serializers
@@ -51,6 +53,21 @@ class Home(NextRace, TemplateView):
         context["team_list"] = teams
         context["next_race"] = NextRace.get_next_race()
         return context
+
+        
+class Classification(NextRace, TemplateView):
+    template_name = 'classification.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Klasyfikacja'
+        queryset = Driver.objects.all().order_by('-points')
+        context["object_list"] = queryset
+        teams = Team.objects.all()
+        context["team_list"] = teams
+        return context
+
 
 
 class Register(FormView):
@@ -193,8 +210,10 @@ class Types(NextRace, FormView):
             first = form.cleaned_data.get('first')
             second = form.cleaned_data.get('second')
             third = form.cleaned_data.get('third')
+
             prediction = Prediction(
                                     race=race, ranking=ranking, first=first, second=second, third=third)
+
             prediction.save()
             messages.success(request, f'Wytypowano wyniki!')
             return redirect('home')
@@ -253,3 +272,34 @@ class RankingView(TemplateView):
         context["title"] = 'Ranking'
         context["rankings"] = Ranking.objects.all().order_by('-points')
         return context
+
+class Contact(TemplateView):
+    template_name = 'contact.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['settings'] = settings
+        context['form'] = ContactForm
+        context["title"] = 'Kontakt'
+        context["title_en"] = 'Contact'
+        return context
+
+    def post(self, request, **kwargs):
+        if request.method == 'POST':
+
+            context = self.get_context_data()
+            form = ContactForm(request.POST)
+            if form.is_valid():
+                # send email code goes here
+                sender_name = form.cleaned_data['name']
+                sender_email = form.cleaned_data['email']
+
+                message = "{0} has sent you a new message:\n\n{1}".format(
+                    sender_name, form.cleaned_data['message'])
+                send_mail('New Enquiry', message, sender_email,
+                          ['MarcinCzuba3@gmail.com'])
+                return redirect('/')
+        else:
+            form = ContactForm()
+
+        return render(request, 'contact.html', context)

@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% load render_bundle from webpack_loader %} {% load
+staticfiles %} {% block content %}
+<h2 class="containter d-flex justify-content-center my-5">Kontakt</h2>
+{% if messages %} {% for message in messages %}
+
+<script>
+  alert("{{ message }}");
+</script>
+{% endfor %} {% endif %}
+<div class="d-flex justify-content-center">
+  <form method="post">
+    {% csrf_token %} {{ form.as_p }} 
+    <input type="submit" class=" btn
+    btn-danger float-right" value="Wyślij" />
+  </form>
+</div>
+
+{% endblock %}
