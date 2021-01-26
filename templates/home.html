@@ -12,7 +12,7 @@
   var nextgp = "{{ next_race.race|date:'Y-m-d H:i' }}";
   var date = new Date(nextgp + "Z");
   dateS = date.toLocaleString();
-  console.log(date);
+  console.log(nextgp);
   document.getElementById("nextrace").innerHTML = dateS;
 </script>
  
@@ -83,7 +83,7 @@
             if(team == "Racing-Point"){
               points = points-15;
             }
-            console.log(points);
+            
             document.getElementById(team).innerHTML = points;
           </script>
           {% endfor %}
