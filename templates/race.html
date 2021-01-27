@@ -23,24 +23,24 @@
 
     .leaflet-container {
         height: 700px !important;
-        width: 920px !important;
-        margin-top: 5rem;
-        margin-left: 16rem !important;
+        width: auto !important;
     }
 </style>
+    <div class="mx-auto col-md-8">
+            <div class="row mx-auto">
+                <div class="col-md">
 <div class="d-flex justify-content-center">
   <h1 class="mt-5">Wyniki</h1>
   </div> <div class="d-flex justify-content-center">
   <h4 class="mb-5"> <b> {{ gp.full_name }} </b> </h3>
   </div>
-
 <div class="mt-5 d-flex justify-content-center">
     {% if results %}
-    <table class="table table-bordered" id="race_table">
+    <table class="table table-bordered" style=" box-shadow: 0 0 10px rgba(0, 0, 0, 0.438);" id="race_table">
 
       <thead>
         <tr>
-            <th style="color:red">Pozycja</th>
+            <th>Pozycja</th>
             <th>Kierowca</th>
             <th>Punkty</th>
         </tr>
@@ -50,7 +50,15 @@
 
         {% for result in results %}
         <tr>
-          <td style="color:red;"> {{ result.position }}</td>
+        {% if result.position == 1 %}
+          <td><i style="color: #d4af37" class="fas fa-trophy"></i>  {{ result.position }}</td>
+          {% elif result.position == 2 %}
+          <td><i style="color: #c0c0c0" class="fas fa-trophy"></i>  {{ result.position }}</td>
+          {% elif result.position == 3 %}
+          <td><i style="color: #b08d57" class="fas fa-trophy"></i>  {{ result.position }}</td>
+          {% else %}
+           <td>{{ result.position }}</td>
+           {% endif %}
           <td>{{ result.driver}}</td>
           <td>{{ result.points}}</td>
         </tr>
@@ -61,6 +69,9 @@
     {% endif %}
 
   </div>
+
+                    <div class="d-flex  bd-highlight justify-content-center">
+
 <div class="card d-flex justify-content-center">
   
       <h3 class="d-flex justify-content-center card-header"> <b>Informacje o GP </b></h3>
@@ -162,6 +173,7 @@
     </div>
     </div>
 
+
     
 </div>
 
@@ -169,10 +181,14 @@
             <script>
                 var obiekt = "{{ gp.circuit }}";
             </script>
-            <h4 class="mt-5 d-flex justify-content-center"><b> Mapa toru </b> </h4>
-            <div id="app" class="ml-5"> {% render_bundle 'index' 'js' %}</div>
+            <h3 class="mt-5 mb-3 d-flex justify-content-center"><b> Mapa toru </b> </h3>
+            <div id="app" style=" box-shadow: 0 0 10px rgba(0, 0, 0, 0.438);" > {% render_bundle 'index' 'js' %}</div>
 
 
 </div>
 
+     </div>
+    </div>
+     </div>
+    </div>
 {% endblock %}

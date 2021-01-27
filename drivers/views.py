@@ -146,7 +146,7 @@ class Profile(TemplateView):
                 messages.success(request,'Zaktualizowano profil!')
                 return redirect('home')
             else:
-                form = UserUpdateForm(instance=request.user.profile)
+                form = UserUpdateForm(instance=request.user)
                 context = self.get_context_data(self)
                 return render(request, 'profile.html',context )
 
