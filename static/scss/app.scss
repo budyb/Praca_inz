@@ -98,9 +98,10 @@ body {
 }
 
 #race_table {
-  transform: scale(0.6);
-  font-size: 30px;
-  margin-top: -14rem !important;
+
+  font-size: 21px;
+  margin-bottom: 50px !important;
+
 }
 #gp_header {
 margin-top: -15rem;
@@ -112,11 +113,11 @@ margin-top: -15rem;
   
 
 }
-.card {
-  margin-top: -12rem;
-  margin-left: 19rem;
-  width: 915px;
-}
+// .card {
+//   margin-top: -12rem;
+//   margin-left: 19rem;
+//   width: 915px;
+// }
 .card-body > .table th {
 border-color: black;
 
