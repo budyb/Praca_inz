@@ -35,7 +35,6 @@ class NextRace:
             elif delta < lowest_delta:
                 next_race = gp
                 lowest_delta = delta
-        print(next_race)
         return next_race
 
 
@@ -46,14 +45,9 @@ class Home(NextRace, TemplateView):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
         context["title"] = 'Strona główna'
-        queryset = Driver.objects.all().order_by('-points')
-        context["object_list"] = queryset
         query = Schedule.objects.all().order_by('race')
         context["gp_list"] = query
-        teams = Team.objects.all()
-        context["team_list"] = teams
         context["next_race"] = NextRace.get_next_race()
-        print(NextRace.get_next_race())
         return context
 
         
@@ -63,11 +57,9 @@ class Classification(NextRace, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
-        context["title"] = 'Klasyfikacja'
+        context["title"] = 'Klasyfikacja kierowców'
         queryset = Driver.objects.all().order_by('-points')
         context["object_list"] = queryset
-        teams = Team.objects.all()
-        context["team_list"] = teams
         return context
 
 class TeamClassification(NextRace, TemplateView):
@@ -76,10 +68,8 @@ class TeamClassification(NextRace, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context["settings"] = settings
-        context["title"] = 'Klasyfikacja'
-        queryset = Driver.objects.all().order_by('-points')
-        context["object_list"] = queryset
-        teams = Team.objects.all()
+        context["title"] = 'Klasyfikacja konstruktorów'
+        teams = Team.objects.all().order_by('-points')
         context["team_list"] = teams
         return context        
 
@@ -155,7 +145,6 @@ class Profile(TemplateView):
                 user.save()                
                 messages.success(request,'Zaktualizowano profil!')
                 return redirect('home')
-                print(user)
             else:
                 form = UserUpdateForm(instance=request.user.profile)
                 context = self.get_context_data(self)
@@ -259,7 +248,6 @@ class Results(TemplateView):
                 if season.year < 2020:
                     context['season'] = season
                     context['historic_races'] = HistoricResult.objects.filter(season=season).group_by('gpName').distinct()
-                    print(HistoricResult.objects.filter(season=season).group_by('gpName').distinct()[0].gpName)
                 else:
                     context['season'] = season
                     context['races'] = Result.objects.filter(season=season).group_by('season','gp__full_name').distinct()
@@ -270,7 +258,6 @@ class Results(TemplateView):
                 
                 if season.year < 2020:
                     context['historic_results'] = HistoricResult.objects.filter(season=season, gpName=race_name)
-                    print( HistoricResult.objects.filter(season=season, gpName=race_name)[0].historicDriver)
                 else:
                     context['results'] = Result.objects.filter(season=season, gp__full_name= race_name)
 
@@ -339,7 +326,6 @@ class DriverView(TemplateView):
                 break
             else:
                 continue
-        print(drver)
         context["driver"] = drver
         context["title"] = drver
         return render(request, 'driver.html', context)
@@ -367,3 +353,20 @@ class TeamView(TemplateView):
         context["title"] = given_team
         return render(request, 'team.html', context)
 
+@method_decorator(login_required, name='dispatch')
+class TypesHistory(TemplateView):
+    template_name = 'types_history.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Historia typów'
+        return context
+
+    def get(self, request):        
+        user = request.user
+        context = self.get_context_data(self)
+        if request.method == 'GET':
+            predictions = Prediction.objects.filter(ranking__username=user)
+            context["prediction_list"]=predictions
+            return render(request, 'types_history.html', context)
