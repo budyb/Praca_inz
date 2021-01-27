@@ -79,7 +79,7 @@
           </tbody>
         </table>
         
-
+  {% if next_race %}
   <script>
     var nextgp = "{{ next_race.race|date:'Y-m-d H:i' }}";
     var date = new Date(nextgp + "Z");
@@ -89,6 +89,6 @@
   </script>
 
   <script src="{{ settings.WEBPACK_LIVE_SERVER_CONFIG.ADDRESS }}/clock.bundle.js"></script>
-
+  {% endif %}
   {% endblock %}
 </div>

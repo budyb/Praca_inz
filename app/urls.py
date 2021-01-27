@@ -32,4 +32,6 @@ urlpatterns = [
     path('classification/', Classification.as_view(), name='classification'),
     path('contact/', Contact.as_view(), name='contact'),
     path('team_classification/', TeamClassification.as_view(), name='TeamClassification'),
+    path('driver/', DriverView.as_view(), name='driver'),
+    path('team/', TeamView.as_view(), name='team')
 ]

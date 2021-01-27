@@ -21,11 +21,11 @@ from drivers.forms import *
 
 
 class NextRace:
-    next_race = ''
+    
 
     def get_next_race():
         now = datetime.now(timezone.utc)
-
+        next_race = ''
         list = Schedule.objects.all()
         lowest_delta = 99999999
         for gp in list:
@@ -35,6 +35,7 @@ class NextRace:
             elif delta < lowest_delta:
                 next_race = gp
                 lowest_delta = delta
+        print(next_race)
         return next_race
 
 
@@ -52,6 +53,7 @@ class Home(NextRace, TemplateView):
         teams = Team.objects.all()
         context["team_list"] = teams
         context["next_race"] = NextRace.get_next_race()
+        print(NextRace.get_next_race())
         return context
 
         
@@ -180,6 +182,7 @@ class Map(TemplateView):
         results = Result.objects.filter(season__year=2020).filter(gp=gp)
         context["gp"] = gp
         context["results"] = results
+        context["title"] = gp.full_name
 
         return render(request, 'race.html', context)
 
@@ -315,3 +318,52 @@ class Contact(TemplateView):
             form = ContactForm()
 
         return render(request, 'contact.html', context)
+
+
+class DriverView(TemplateView):
+    template_name = 'driver.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Nowa strona'
+        return context
+
+    def post(self, request):
+        context = self.get_context_data(self)
+        drver = request.POST.get('driver', None)
+        
+        for driver in Driver.objects.all():
+            if drver == str(driver):
+                drver = driver
+                break
+            else:
+                continue
+        print(drver)
+        context["driver"] = drver
+        context["title"] = drver
+        return render(request, 'driver.html', context)
+
+class TeamView(TemplateView):
+    template_name = 'team.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["settings"] = settings
+        context["title"] = 'Nowa strona'
+        return context
+
+    def post(self, request):
+        context = self.get_context_data(self)
+        given_team = request.POST.get('team', None)
+        
+        for team in Team.objects.all():
+            if given_team == str(team):
+                given_team = team
+                break
+            else:
+                continue
+        context["team"] = given_team
+        context["title"] = given_team
+        return render(request, 'team.html', context)
+
