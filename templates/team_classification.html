@@ -19,25 +19,19 @@ staticfiles %} {% load crispy_forms_tags %} {% block content %}
           {% for team in team_list %}
 
           <tr>
-            <td>{{ team}}</td>
-            <td><p id="{{ team }}"></p></td>
+            <!-- <td>{{ team}}</td> -->
+            <td>
+              <form action="/team/" method="post">
+                {% csrf_token %}
+                <button type="submit" name="team" value="{{ team }}" class="btn btn-danger">
+                  {{ team }}
+                </button>
+              </form>
+            </td>
+            <td>{{ team.points }}</td>
             <td>{{ team.team_chief}}</td>
           </tr>
-          <script>
-            var points = 0;
-            var team = "{{ team }}";
-          </script>
-          {% for driver in team.driver.all %}
-          <script>
-            var driver_points = parseInt("{{ driver.points }}");
-            points = points + driver_points;
-            if (team == "Racing-Point") {
-              points = points - 15;
-            }
-            console.log(points);
-            document.getElementById(team).innerHTML = points;
-          </script>
-          {% endfor %} {% endfor %}
+          {% endfor %}
         </tbody>
       </table>
     </div>

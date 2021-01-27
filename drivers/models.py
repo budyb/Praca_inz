@@ -23,11 +23,30 @@ class Driver(models.Model):
     number = models.IntegerField(default=0, null=True)
 
     def __str__(self):
+        if self.nationality == None:
+            self.nationality = "Brak danych"
+        if self.podiums == None or self.podiums == "N/A":
+            self.podiums = "0"
+        if self.total_points == None or self.total_points == "N/A":
+            self.total_points = "Brak danych"
+        if self.gp_entered == None or self.gp_entered == "N/A":
+            self.gp_entered = "Brak danych"
+        if self.w_champs == None or self.w_champs == "N/A":
+            self.w_champs = "0"
+        if self.highest_finish == None or self.highest_finish == "N/A":
+            self.highest_finish = "Brak danych"
+        if self.birthdate == None or self.birthdate == "N/A":
+            self.birthdate = "Brak danych"
+        if self.number == None or self.number == "N/A":
+            self.number = "Brak danych"
         return self.name + " " + self.surname
+
+    
 
 
 class Team(models.Model):
     name = models.CharField(max_length=150, unique=True)
+    points = models.IntegerField(default=0)
     base = models.CharField(max_length=150)
     team_chief = models.CharField(max_length=150)
     tech_chief = models.CharField(max_length=150, null=True)
@@ -40,6 +59,14 @@ class Team(models.Model):
     fastest_laps = models.CharField(max_length=3, null=True)
 
     def __str__(self):
+        if self.first_entry == "N/A":
+            self.first_entry = "Brak Danych"
+        if self.world_champs == "N/A":
+            self.world_champs = "0"
+        if self.pole_positions == "N/A":
+            self.pole_positions = "0"
+        if self.fastest_laps == "N/A":
+            self.fastest_laps = "0"
         return self.name
 
 

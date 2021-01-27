@@ -15,7 +15,14 @@ staticfiles %} {% load crispy_forms_tags %} {% block content %}
         <tbody>
           {% for obj in object_list %}
           <tr>
-            <td>{{ obj }}</td>
+            <td>
+              <form action="/driver/" method="post">
+                {% csrf_token %}
+                <button type="submit" name="driver" value="{{ obj }}" class="btn btn-danger">
+                  {{ obj }}
+                </button>
+              </form>
+            </td>
             <td>{{ obj.points}}</td>
           </tr>
           {% endfor %}
