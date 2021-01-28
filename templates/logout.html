@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Wylogowano</h2>
-    <div class="border-top pt-3">
-        <small class="text-muted">
-            <a href="{% url 'login' %}">Zaloguj ponownie</a>   
+<div class="mx-auto col-md-8">
+            <div class="row mx-auto">
+                <div class="col-md">
+<div class="d-flex justify-content-center">
+    <h2 style="margin-top:9rem !important; margin-bottom:3rem" >Wylogowano</h2>
+    </div>
+    <div class="pt-3">
+    <div class="d-flex justify-content-center">
+        <small style="font-size:20px;" class="text-muted">
+            <a style="color:#00b2ff !important"class="mb-5 pb-5" href="{% url 'login' %}">Zaloguj ponownie</a>   
+            </div>
+            </div>
+            </div>
+            </div>
     </div> 
+    <div class="mb-5 pb-5">
+    </div>
 {% endblock %}
