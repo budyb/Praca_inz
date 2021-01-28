@@ -10,9 +10,9 @@ import { DataGrid } from '@material-ui/data-grid';
  */
 
 const columns = [
-  { field: 'id', headerName: 'Pozycja', width: 130 },
-  { field: 'username', headerName: 'Użytkownik', width: 130 },
-  { field: 'points', headerName: 'Punkty', width: 130 },
+  { field: 'id', headerName: 'Pozycja', width: 160 },
+  { field: 'username', headerName: 'Użytkownik', width: 160 },
+  { field: 'points', headerName: 'Punkty', width: 160 },
 ];
 
 function post(path, params, method='post') {
@@ -68,7 +68,7 @@ function getCellActions(column, row) {
 export default function DataTable() {
   return (
     <div style={{ height: 400, width: 500 }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5} getCellActions={getCellActions} disableMultipleSelection={true}  />
+      <DataGrid rows={rows} columns={columns} pageSize={4} getCellActions={getCellActions} disableMultipleSelection={true}  />
     </div>
   );
 }

@@ -10,7 +10,10 @@
         <h1 class="d-flex justify-content-center my-5">Sprawdź wyniki wyścigów</h1>
     </div>
     <div class="d-flex justify-content-center">
-        <form method="POST">
+     
+        <form method="POST">  
+         <div class="row">
+        <div class="col-sm mx-auto">
         <h5 class="mt-5 d-flex justify-content-center"> Wybierz rok, w którym odbył się wyścig</h5>
             {% csrf_token %}
             {{ form | crispy }}
@@ -25,7 +28,9 @@
                 {% endfor %}   
                 {% endif %}           
               </select>
+           </div>
            
+               <div class="col-sm mx-auto">
           <div id="mydiv" style ="display:none">
               <h5 class="d-flex justify-content-center mt-5"> Wybierz wyścig</h5>
               <select multiple name="Race" size="4">
@@ -41,21 +46,22 @@
                 <option value="{{race.gpName}}">{{ race.gpName }}</option>  
                 {% endfor %}        
                 {% endif %} 
-                
+            
               </select>
+              </div>
                    
                     </div>
                     {% if show %}
                     <script> document.getElementById("mydiv").style.display="block" </script>
                     {% endif %}
-                  
+                      </div>
             <button class="btn btn-lg btn-danger" id=submitbutton type="submit">Sprawdź</button>
 </div>
       {% if results or historic_results %}
-            <div class="mt-5 pt-5 col-sm">
-                <h1 class="d-flex justify-content-center mt-5 pt-5">Wyniki</h1>
+            <div class="mt-5 mx-auto pt-5 col-sm-8">
+                <h1 class="d-flex justify-content-center my-5 pt-5">Wyniki</h1>
                 {{ form | crispy }}
-                <table style=" box-shadow: 0 0 10px rgba(0, 0, 0, 0.438);" class="table css-serial">
+                <table style="font-size:20px" class="table css-serial">
                   <thead>
                     <tr>
                       <th>Pozycja</th>
@@ -66,8 +72,21 @@
                   <tbody>
                
                     {% for result in results %}          
-                    <tr>
-                      <td>{{ result.position }}</td>          
+
+        {% if result.position == 1 %}
+          <td><i style="color: #d4af37" class="fas fa-trophy"></i>  {{ result.position }}</td>
+          {% elif result.position == 2 %}
+          <td><i style="color: #c0c0c0" class="fas fa-trophy"></i>  {{ result.position }}</td>
+          {% elif result.position == 3 %}
+          <td><i style="color: #b08d57" class="fas fa-trophy"></i>  {{ result.position }}</td>
+          {% else %}
+           <td>{{ result.position }}</td>
+           {% endif %}
+
+
+
+
+
                       <td>{{ result.driver }}</td>
                       <td>{{ result.points }}</td>                    
                     </tr>
@@ -77,7 +96,17 @@
                   
                     {% for historic_result in historic_results %}          
                     <tr>
-                      <td>{{ historic_result.hisPosition }}</td>          
+
+
+        {% if historic_result.hisPosition == 1 %}
+          <td><i style="color: #d4af37" class="fas fa-trophy"></i>  {{ historic_result.hisPosition }}</td>
+          {% elif historic_result.hisPosition == 2 %}
+          <td><i style="color: #c0c0c0" class="fas fa-trophy"></i>  {{ historic_result.hisPosition }}</td>
+          {% elif historic_result.hisPosition == 3 %}
+          <td><i style="color: #b08d57" class="fas fa-trophy"></i>  {{ historic_result.hisPosition }}</td>
+          {% else %}
+           <td>{{ historic_result.hisPosition }}</td>
+           {% endif %}       
                       <td>{{ historic_result.historicDriver }}</td>
                       <td>{{ historic_result.hisPoints }}</td>                    
                     </tr>
