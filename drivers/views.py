@@ -4,14 +4,12 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from .forms import ContactForm
 from django.core.mail import send_mail
 
-from django.http import JsonResponse
-from django.core import serializers
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 from django_group_by import GroupByMixin
@@ -20,9 +18,7 @@ from drivers.models import *
 from drivers.forms import *
 
 
-class NextRace:
-    
-
+class NextRace: 
     def get_next_race():
         now = datetime.now(timezone.utc)
         next_race = ''
@@ -195,6 +191,11 @@ class Types(NextRace, FormView):
             ranking = ''
             rankingList = Ranking.objects.all()
             race = NextRace.get_next_race()
+            today = date.today()
+            if race.race.date() == today:
+                form = TypeForm()
+                messages.warning(request, f'Typowanie w dzień wyścigu jest zablokowane')
+                return redirect('types')
             for rank in rankingList:
                 if rank.username == usr:
                     ranking = rank
@@ -293,7 +294,6 @@ class Contact(TemplateView):
             context = self.get_context_data(self)
             form = ContactForm(request.POST)
             if form.is_valid():
-                # send email code goes here
                 sender_name = form.cleaned_data['name']
                 sender_email = form.cleaned_data['email']
 
