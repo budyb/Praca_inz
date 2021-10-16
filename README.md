@@ -1,11 +1,12 @@
 Praca inżynierska
 
-Celem niniejszej pracy jest stworzenie aplikacji webowej dla fanów Formuły 1, przyjaznej dla użytkownika. 
+Ninejsza praca przedstawia aplikację webową dedykowaną fanom Formuły 1, przyjaznej dla użytkownika. 
 Aplikacja w przejrzysty sposób przedstawia najważniejsze informacje. Strona pozwala zapoznać się ze sportem, a także być na bieżąco z wynikami. 
 Pozwala ona na łatwy dostęp do:
 •Najnowszych wyników wyścigów
 •Klasyfikacji generalnych
-•Kalendarza sezonu
+•Kalendarza sezonu. 
+
 Ponadto dla każdego wyścigu sezonu dostępna jest strona z dokładną godzinową rozpiską
 wszystkich sesji wybranego Grand Prix, mapą toru, oraz jeśli wyścig się już odbył - wynikami.
 
