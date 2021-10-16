@@ -1,5 +1,19 @@
 Praca inżynierska
 
+Celem niniejszej pracy jest stworzenie aplikacji webowej dla fanów Formuły 1, przyjaznej dla użytkownika. 
+Aplikacja w przejrzysty sposób przedstawia najważniejsze informacje. Strona pozwala zapoznać się ze sportem, a także być na bieżąco z wynikami. 
+Pozwala ona na łatwy dostęp do:
+•Najnowszych wyników wyścigów
+•Klasyfikacji generalnych
+•Kalendarza sezonu
+Ponadto dla każdego wyścigu sezonu dostępna jest strona z dokładną godzinową rozpiską
+wszystkich sesji wybranego Grand Prix, mapą toru, oraz jeśli wyścig się już odbył - wynikami.
+
+Zalogowani użytkownicy mogą typować, którzy kierowcy staną na podium w najbliższym
+wyścigu. Za poprawne trafy przyznawane są punkty. Na ich podstawie prowadzony jest ogólnodostępny ranking wszystkich użytkowników.
+Dane dotyczące sportu takie jak: lista zespołów, lista kierowców, kalendarz sezonu, wyniki wyścigów, klasyfikacje generalne
+ są pobierane automatycznie za pomocą skryptów z oficjalnej strony Formuły 1. 
+
 Uruchomienie:
 
     1. W folderze venv/Scripts uruchomić skrypt activate z poziomu konsoli
