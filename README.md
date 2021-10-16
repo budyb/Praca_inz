@@ -14,5 +14,5 @@ Dostępne komendy:
     python manage.py create_teams - pobranie informacji o zespołach
     python manage.py create_drivers - pobranie informacji o kierowcach
     python manage.py create_schedule - pobranie kalendarza sezonu
-    python manage.py download_results rok (--race "nazwa") - pobranie wyników wyścigów w sezonie podanym w parametrze rok, lub jeśli dodatkowo podany jest --race, pobranie       wyników tylko jednego wyścigu z danego sezonu określonego w "nazwa". 
+    python manage.py download_results rok (--race "nazwa") - pobranie wyników wyścigów w sezonie podanym w parametrze rok, lub jeśli dodatkowo podany jest --race, pobranie  wyników tylko jednego wyścigu z danego sezonu określonego w "nazwa". 
     python manage.py update_race rok "nazwa wyścigu" - sprawdzenie typów użytkowników i przyznanie punktów wymagany rok i pełna nazwa wyścigu
