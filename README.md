@@ -1,6 +1,6 @@
 Praca inżynierska
 
-Ninejsza praca przedstawia aplikację webową dedykowaną fanom Formuły 1, przyjaznej dla użytkownika. 
+Ninejsza praca przedstawia aplikację webową dedykowaną fanom Formuły 1. 
 Aplikacja w przejrzysty sposób przedstawia najważniejsze informacje. Strona pozwala zapoznać się ze sportem, a także być na bieżąco z wynikami. 
 Pozwala ona na łatwy dostęp do:
 •Najnowszych wyników wyścigów
